@@ -38,7 +38,7 @@ class RoleAccessTest extends AbstractIntegrationTest {
         assertThat(response.status()).isEqualTo(403);
         assertThat(response.contentType()).startsWith("application/problem+json");
         assertThat(response.body().path("status").asInt()).isEqualTo(403);
-        assertThat(response.body().path("detail").asText()).isEqualTo("Access denied");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Access denied");
     }
 
     @Test
@@ -50,14 +50,14 @@ class RoleAccessTest extends AbstractIntegrationTest {
         ApiResponse list = api.get("/api/settings");
         assertThat(list.status()).isEqualTo(200);
         assertThat(list.body().size()).isEqualTo(5);
-        assertThat(list.body().findValuesAsText("key"))
+        assertThat(list.body().findValuesAsString("key"))
                 .contains("offer_hours", "warning_threshold", "repair_due_hours_urgent");
 
         ApiResponse update = api.put("/api/settings/offer_hours", Map.of("value", "72"));
         assertThat(update.status()).isEqualTo(200);
-        assertThat(update.body().path("key").asText()).isEqualTo("offer_hours");
-        assertThat(update.body().path("value").asText()).isEqualTo("72");
-        assertThat(update.body().path("type").asText()).isEqualTo("HOURS");
+        assertThat(update.body().path("key").asString()).isEqualTo("offer_hours");
+        assertThat(update.body().path("value").asString()).isEqualTo("72");
+        assertThat(update.body().path("type").asString()).isEqualTo("HOURS");
         assertThat(settings.getInt(SettingKey.OFFER_HOURS)).isEqualTo(72);
 
         ApiResponse invalid = api.put("/api/settings/offer_hours", Map.of("value", "soon"));

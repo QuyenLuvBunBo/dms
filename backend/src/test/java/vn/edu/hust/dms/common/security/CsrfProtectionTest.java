@@ -37,7 +37,7 @@ class CsrfProtectionTest extends AbstractIntegrationTest {
 
         assertThat(response.status()).isEqualTo(403);
         assertThat(response.contentType()).startsWith("application/problem+json");
-        assertThat(response.body().path("detail").asText()).isEqualTo("Invalid or missing CSRF token");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Invalid or missing CSRF token");
         assertThat(api.cookie(ApiClient.SESSION_COOKIE)).isEmpty();
         assertThat(api.get("/api/me").status()).isEqualTo(401);
     }
@@ -53,7 +53,7 @@ class CsrfProtectionTest extends AbstractIntegrationTest {
                 Map.of(ApiClient.XSRF_HEADER, "not-the-token"));
 
         assertThat(response.status()).isEqualTo(403);
-        assertThat(response.body().path("detail").asText()).isEqualTo("Invalid or missing CSRF token");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Invalid or missing CSRF token");
         assertThat(settings.getInt(SettingKey.OFFER_HOURS)).as("nothing changed").isEqualTo(48);
         assertThat(api.get("/api/me").status()).as("the session itself survives").isEqualTo(200);
     }

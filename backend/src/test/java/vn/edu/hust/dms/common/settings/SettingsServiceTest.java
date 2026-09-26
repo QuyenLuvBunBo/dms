@@ -58,7 +58,7 @@ class SettingsServiceTest extends AbstractIntegrationTest {
     void invalidValueIsRejected() {
         assertThatThrownBy(() -> settings.update("offer_hours", "two days"))
                 .isInstanceOf(InvalidSettingValueException.class)
-                .satisfies(ex -> assertThat(((DomainException) ex).status()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY))
+                .satisfies(ex -> assertThat(((DomainException) ex).status()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT))
                 .hasMessageContaining("offer_hours");
         assertThatThrownBy(() -> settings.update("offer_hours", "-1"))
                 .isInstanceOf(InvalidSettingValueException.class);

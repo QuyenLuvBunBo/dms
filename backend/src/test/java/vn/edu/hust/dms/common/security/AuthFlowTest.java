@@ -29,7 +29,7 @@ class AuthFlowTest extends AbstractIntegrationTest {
         assertThat(response.status()).isEqualTo(401);
         assertThat(response.contentType()).startsWith("application/problem+json");
         assertThat(response.body().path("status").asInt()).isEqualTo(401);
-        assertThat(response.body().path("detail").asText()).isEqualTo("Authentication required");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Authentication required");
         assertThat(api.csrfToken()).isPresent();
         assertThat(response.setCookies()).anySatisfy(cookie -> {
             assertThat(cookie).startsWith(ApiClient.XSRF_COOKIE + "=");
@@ -49,14 +49,14 @@ class AuthFlowTest extends AbstractIntegrationTest {
 
         assertThat(login.status()).isEqualTo(200);
         assertThat(login.body().path("id").asLong()).isEqualTo(user.id());
-        assertThat(login.body().path("username").asText()).isEqualTo(user.username());
-        assertThat(login.body().path("fullName").asText()).isEqualTo("Test " + role.name());
-        assertThat(login.body().path("role").asText()).isEqualTo(role.name());
+        assertThat(login.body().path("username").asString()).isEqualTo(user.username());
+        assertThat(login.body().path("fullName").asString()).isEqualTo("Test " + role.name());
+        assertThat(login.body().path("role").asString()).isEqualTo(role.name());
 
         ApiResponse me = api.get("/api/me");
         assertThat(me.status()).isEqualTo(200);
-        assertThat(me.body().path("username").asText()).isEqualTo(user.username());
-        assertThat(me.body().path("role").asText()).isEqualTo(role.name());
+        assertThat(me.body().path("username").asString()).isEqualTo(user.username());
+        assertThat(me.body().path("role").asString()).isEqualTo(role.name());
     }
 
     @Test
@@ -69,7 +69,7 @@ class AuthFlowTest extends AbstractIntegrationTest {
 
         assertThat(response.status()).isEqualTo(401);
         assertThat(response.contentType()).startsWith("application/problem+json");
-        assertThat(response.body().path("detail").asText()).isEqualTo("Invalid username or password");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Invalid username or password");
         assertThat(api.cookie(ApiClient.SESSION_COOKIE)).isEmpty();
         assertThat(api.get("/api/me").status()).isEqualTo(401);
     }
@@ -82,7 +82,7 @@ class AuthFlowTest extends AbstractIntegrationTest {
         ApiResponse response = api().loginAs(user);
 
         assertThat(response.status()).isEqualTo(401);
-        assertThat(response.body().path("detail").asText()).isEqualTo("Account is disabled");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Account is disabled");
     }
 
     @Test

@@ -7,7 +7,7 @@ import vn.edu.hust.dms.common.error.DomainException;
 public class InvalidSettingValueException extends DomainException {
 
     public InvalidSettingValueException(SettingKey key, String value) {
-        super(HttpStatus.UNPROCESSABLE_ENTITY,
+        super(HttpStatus.UNPROCESSABLE_CONTENT,
                 "Setting " + key.key() + " expects " + key.type().description() + ", got '" + value + "'");
     }
 }

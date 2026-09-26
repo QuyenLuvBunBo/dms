@@ -1,17 +1,16 @@
 package vn.edu.hust.dms.support;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.MissingNode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.MissingNode;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.HttpCookie;
@@ -36,7 +35,7 @@ public final class ApiClient {
     private final URI baseUri;
     private final CookieManager cookies = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
     private final RestClient client;
-    private final ObjectMapper json = new ObjectMapper();
+    private final JsonMapper json = JsonMapper.shared();
 
     public ApiClient(int port) {
         this.baseUri = URI.create("http://localhost:" + port);
@@ -140,8 +139,8 @@ public final class ApiClient {
         }
         try {
             return json.readTree(body);
-        } catch (IOException e) {
-            throw new UncheckedIOException("Response is not JSON: " + body, e);
+        } catch (JacksonException e) {
+            throw new IllegalStateException("Response is not JSON: " + body, e);
         }
     }
 }

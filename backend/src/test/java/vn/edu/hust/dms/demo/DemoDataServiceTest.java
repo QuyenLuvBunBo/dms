@@ -57,8 +57,8 @@ class DemoDataServiceTest extends AbstractIntegrationTest {
             ApiResponse response = api().loginAs(account.username(), DemoAccount.PASSWORD);
 
             assertThat(response.status()).as(account.username()).isEqualTo(200);
-            assertThat(response.body().path("role").asText()).isEqualTo(account.role().name());
-            assertThat(response.body().path("fullName").asText()).isEqualTo(account.fullName());
+            assertThat(response.body().path("role").asString()).isEqualTo(account.role().name());
+            assertThat(response.body().path("fullName").asString()).isEqualTo(account.fullName());
         }
     }
 }

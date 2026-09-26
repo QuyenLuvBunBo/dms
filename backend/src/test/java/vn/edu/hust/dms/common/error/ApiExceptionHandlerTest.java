@@ -36,8 +36,8 @@ class ApiExceptionHandlerTest extends AbstractIntegrationTest {
         assertThat(response.status()).isEqualTo(409);
         assertThat(response.contentType()).startsWith("application/problem+json");
         assertThat(response.body().path("status").asInt()).isEqualTo(409);
-        assertThat(response.body().path("title").asText()).isEqualTo("Conflict");
-        assertThat(response.body().path("detail").asText()).isEqualTo("Cannot approve an application in status DRAFT");
+        assertThat(response.body().path("title").asString()).isEqualTo("Conflict");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Cannot approve an application in status DRAFT");
     }
 
     @Test
@@ -47,8 +47,8 @@ class ApiExceptionHandlerTest extends AbstractIntegrationTest {
 
         assertThat(response.status()).isEqualTo(422);
         assertThat(response.contentType()).startsWith("application/problem+json");
-        assertThat(response.body().path("rule").asText()).isEqualTo("BR-03");
-        assertThat(response.body().path("detail").asText()).isEqualTo("Cannot assign a MALE student to a FEMALE room");
+        assertThat(response.body().path("rule").asString()).isEqualTo("BR-03");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Cannot assign a MALE student to a FEMALE room");
     }
 
     @Test
@@ -58,7 +58,7 @@ class ApiExceptionHandlerTest extends AbstractIntegrationTest {
 
         assertThat(response.status()).isEqualTo(404);
         assertThat(response.contentType()).startsWith("application/problem+json");
-        assertThat(response.body().path("detail").asText()).isEqualTo("Application 42 not found");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Application 42 not found");
     }
 
     @Test
@@ -68,7 +68,7 @@ class ApiExceptionHandlerTest extends AbstractIntegrationTest {
 
         assertThat(response.status()).isEqualTo(400);
         assertThat(response.contentType()).startsWith("application/problem+json");
-        assertThat(response.body().path("errors").findValuesAsText("field"))
+        assertThat(response.body().path("errors").findValuesAsString("field"))
                 .containsExactlyInAnyOrder("name", "quantity");
 
         ApiResponse ok = api.post("/api/test/errors/validated", Map.of("name", "Bed 3", "quantity", 2));
@@ -82,7 +82,7 @@ class ApiExceptionHandlerTest extends AbstractIntegrationTest {
 
         assertThat(response.status()).isEqualTo(500);
         assertThat(response.contentType()).startsWith("application/problem+json");
-        assertThat(response.body().path("detail").asText()).isEqualTo("Unexpected error");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Unexpected error");
         assertThat(response.body().toString()).doesNotContain("boom").doesNotContain("IllegalStateException");
     }
 }

@@ -10,7 +10,7 @@ public class BusinessRuleViolationException extends DomainException {
     private final String ruleId;
 
     public BusinessRuleViolationException(String ruleId, String message) {
-        super(HttpStatus.UNPROCESSABLE_ENTITY, message);
+        super(HttpStatus.UNPROCESSABLE_CONTENT, message);
         this.ruleId = ruleId;
     }
 
