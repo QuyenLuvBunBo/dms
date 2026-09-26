@@ -11,6 +11,10 @@ spring:
           time_zone: UTC
   flyway:
     enabled: true
+  web:
+    error:
+      include-stacktrace: never
+      include-message: never
 
 server:
   servlet:
@@ -18,9 +22,6 @@ server:
       cookie:
         http-only: true
         same-site: lax
-  error:
-    include-stacktrace: never
-    include-message: never
 
 dms:
   clock:

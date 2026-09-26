@@ -6,9 +6,9 @@ The build is split into phases in `docs/BUILD_PLAN.md`. **Work on one phase per 
 
 ## Stack
 
-- **Backend:** Java 21, Spring Boot 3, Maven. Spring Web, Spring Data JPA (Hibernate), Spring Security, Bean Validation, Flyway
+- **Backend:** Java 21, Spring Boot 4.1 (Spring Framework 7, Spring Security 7, Hibernate 7, Jackson 3), Maven. Spring Web MVC, Spring Data JPA (Hibernate), Spring Security, Bean Validation, Flyway. Modular starters: every main starter has its `-test` companion; no classic starters and no Jackson 2.
 - **Database:** MySQL 8
-- **Tests:** JUnit 5, Spring Boot Test, Testcontainers (MySQL). No H2 — locking behaviour must be tested on real MySQL
+- **Tests:** JUnit 6 (Jupiter), Spring Boot Test, Testcontainers 2 (MySQL). No H2 - locking behaviour must be tested on real MySQL
 - **Frontend:** React + TypeScript (Vite), React Router, TanStack Query, Tailwind CSS
 - **Language:** English everywhere — UI text, code, comments, commit messages. Seed data uses realistic Vietnamese student names.
 
@@ -87,7 +87,7 @@ These are the core of the project. Every rule must have at least one test whose 
 
 - State transitions live in service classes (e.g. `ApplicationService.approve(id)`), never in controllers or entities' setters. Each transition validates the current state, performs the change, and writes an `audit_logs` row in the same transaction.
 - Every status column is a Java enum mapped with `@Enumerated(EnumType.STRING)`.
-- Enum fields also carry `@JdbcTypeCode(SqlTypes.VARCHAR)` and their columns are `VARCHAR`. Without it Hibernate 6.6 expects a native MySQL `ENUM` column and `ddl-auto=validate` fails at startup.
+- Enum fields map to `VARCHAR` columns and carry `@JdbcTypeCode(SqlTypes.VARCHAR)`, so Hibernate's column type matches the Flyway DDL exactly. Schema validation would also pass without it (Hibernate treats ENUM and VARCHAR as equivalent, HHH-17908); keep it for consistency.
 - Invalid transitions throw a `DomainException` subclass; one `@RestControllerAdvice` maps them to RFC 7807 `ProblemDetail` responses (409 for state conflicts, 422 for rule violations).
 - Controllers take and return DTOs (Java records), never JPA entities.
 - All time-based logic reads the current time from an injected `java.time.Clock` bean, never `LocalDateTime.now()` directly. Tests replace it with a mutable test clock to move time forward.

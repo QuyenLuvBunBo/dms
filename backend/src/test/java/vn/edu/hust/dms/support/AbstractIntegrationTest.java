@@ -8,7 +8,7 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.context.annotation.Import;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.mysql.MySQLContainer;
 
 /**
  * Base of every integration test: one MySQL 8.4 container for the whole JVM, the real HTTP
@@ -22,7 +22,7 @@ import org.testcontainers.containers.MySQLContainer;
 public abstract class AbstractIntegrationTest {
 
     @ServiceConnection
-    static final MySQLContainer<?> MYSQL = new MySQLContainer<>("mysql:8.4");
+    static final MySQLContainer MYSQL = new MySQLContainer("mysql:8.4");
 
     static {
         MYSQL.start();
