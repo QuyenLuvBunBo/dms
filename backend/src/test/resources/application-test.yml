@@ -1,0 +1,6 @@
+logging:
+  level:
+    org.hibernate: WARN
+    org.springframework: WARN
+    org.testcontainers: INFO
+    com.zaxxer.hikari: WARN

@@ -87,6 +87,7 @@ These are the core of the project. Every rule must have at least one test whose 
 
 - State transitions live in service classes (e.g. `ApplicationService.approve(id)`), never in controllers or entities' setters. Each transition validates the current state, performs the change, and writes an `audit_logs` row in the same transaction.
 - Every status column is a Java enum mapped with `@Enumerated(EnumType.STRING)`.
+- Enum fields also carry `@JdbcTypeCode(SqlTypes.VARCHAR)` and their columns are `VARCHAR`. Without it Hibernate 6.6 expects a native MySQL `ENUM` column and `ddl-auto=validate` fails at startup.
 - Invalid transitions throw a `DomainException` subclass; one `@RestControllerAdvice` maps them to RFC 7807 `ProblemDetail` responses (409 for state conflicts, 422 for rule violations).
 - Controllers take and return DTOs (Java records), never JPA entities.
 - All time-based logic reads the current time from an injected `java.time.Clock` bean, never `LocalDateTime.now()` directly. Tests replace it with a mutable test clock to move time forward.

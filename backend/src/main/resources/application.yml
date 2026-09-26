@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: dms
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        same-site: lax
+  error:
+    include-stacktrace: never
+    include-message: never
+
+dms:
+  clock:
+    zone: Asia/Ho_Chi_Minh
