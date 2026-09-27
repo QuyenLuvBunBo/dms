@@ -192,7 +192,8 @@ first, every file you will create or change, and any ambiguity.
 - BR-12 có đủ 3 bộ số: phòng 8 người 4.920.000, phòng 10 người 3.840.000, phòng 6 người 6.840.000 — và trường hợp vào ở ngày cuối tháng vẫn tính cả tháng
 - BR-03: ưu tiên tầng theo giới tính **chỉ là bộ lọc mặc định**, không được chặn lựa chọn
 - File ảnh và minh chứng lưu ngoài database, và có test sinh viên này không tải được ảnh của sinh viên khác
-
+- Thay EmptyBedOccupancy bằng bản thật dựa trên registrations (residences để Phase 3).
+- Chốt phòng đã có lịch sử đăng ký thì chặn xóa hay lưu trữ (điểm #4) — mình nghiêng về chặn xóa cho đơn giản.
 **Tự kiểm tra:** mở 2 trình duyệt (1 thường, 1 ẩn danh), đăng nhập 2 sinh viên, cùng bấm giữ một giường cuối cùng.
 
 ---
