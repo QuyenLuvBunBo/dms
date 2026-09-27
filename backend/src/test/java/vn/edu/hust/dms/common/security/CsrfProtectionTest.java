@@ -49,12 +49,12 @@ class CsrfProtectionTest extends AbstractIntegrationTest {
         ApiClient api = api();
         assertThat(api.loginAs(admin).status()).isEqualTo(200);
 
-        ApiResponse response = api.putRaw("/api/settings/offer_hours", Map.of("value", "24"),
+        ApiResponse response = api.putRaw("/api/settings/default_hold_minutes", Map.of("value", "24"),
                 Map.of(ApiClient.XSRF_HEADER, "not-the-token"));
 
         assertThat(response.status()).isEqualTo(403);
         assertThat(response.body().path("detail").asString()).isEqualTo("Invalid or missing CSRF token");
-        assertThat(settings.getInt(SettingKey.OFFER_HOURS)).as("nothing changed").isEqualTo(48);
+        assertThat(settings.getInt(SettingKey.DEFAULT_HOLD_MINUTES)).as("nothing changed").isEqualTo(30);
         assertThat(api.get("/api/me").status()).as("the session itself survives").isEqualTo(200);
     }
 

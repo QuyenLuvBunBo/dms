@@ -45,12 +45,16 @@ Building managers are linked to buildings through `building_managers (user_id, b
 
 ```
 buildings < floors < rooms < beds
+buildings (code, name)
+floors (building_id, number, gender_preference)
 floors.gender_preference: null | MALE | FEMALE      (soft default only, BR-03)
 room_types (building_id, name, capacity, area_m2, has_air_conditioning,
             has_water_heater, bathrooms, monthly_rent)
-rooms (floor_id, room_type_id, code, gender)
+rooms (floor_id, room_type_id, code, gender)  (code unique per building)
 rooms.gender: null | MALE | FEMALE                   (null = empty, unlocked)
+beds (room_id, code)
 room_assets (room_id, name, status)
+room_assets.status: GOOD | DAMAGED | MISSING
 building_managers (user_id, building_id)
 
 student_profiles (user_id, student_code, gender, date_of_birth, citizen_id,
@@ -107,6 +111,20 @@ Uploaded files (photos, priority proof) are stored under the configured `app.sto
 | `overdue_days_block_stay_on` | 30 | team decision |
 | `repair_deadline_hours_urgent / normal / low` | 24 / 72 / 168 | team decision |
 | `warning_threshold` | 3 | team decision |
+
+### Buildings
+
+Room types per building, from resident interviews.
+
+| Building | Capacities | Area m2 | Air con | Water heater | Bathrooms |
+|---|---|---|---|---|---|
+| B3  | 10        | 38 | yes | yes | 1 |
+| B5  | 8, 10     | 38 | yes | yes | 1 |
+| B6  | 6, 8, 10  | 38 | yes | yes | 1 |
+| B8  | 6, 8      | 30 | yes | yes | 1 |
+| B9  | 6, 8, 10  | 38 | yes | yes | 1 |
+| B10 | 8, 10, 12 | 60 | no (2 ceiling fans) | yes | 2 |
+| B13 | 6, 8      | 30 | no (fan) | yes | 1 |
 
 Seed room types with the official monthly rents for B6 and B9: 6-student room 1,050,000; 8-student room 730,000; 10-student room 550,000 (all with air conditioning, water heater, one bathroom). Other buildings (B3, B5, B8, B10, B13) use the same structure with their own capacities and amenities; their rents are unknown, so seed plausible values and mark them in the seeder as estimates.
 

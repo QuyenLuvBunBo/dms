@@ -29,14 +29,14 @@ class DmsApplicationTest extends AbstractIntegrationTest {
     private Environment environment;
 
     @Test
-    @DisplayName("INFRA context starts with Flyway V1 and V2 applied and Hibernate ddl-auto=validate passing")
+    @DisplayName("INFRA context starts with Flyway V1 to V4 applied and Hibernate ddl-auto=validate passing")
     void contextStartsWithMigrationsApplied() {
         assertThat(flyway.info().applied())
                 .extracting(info -> info.getVersion().getVersion())
-                .containsExactly("1", "2");
+                .containsExactly("1", "2", "3", "4");
         assertThat(flyway.info().pending()).isEmpty();
         assertThat(environment.getProperty("spring.jpa.hibernate.ddl-auto")).isEqualTo("validate");
-        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM settings", Long.class)).isEqualTo(5L);
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM settings", Long.class)).isEqualTo(9L);
         assertThat(injectedClock).as("the Clock bean seen by services is the mutable test clock")
                 .isInstanceOf(MutableClock.class);
     }

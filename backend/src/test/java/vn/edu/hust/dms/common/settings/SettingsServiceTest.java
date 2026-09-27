@@ -9,6 +9,7 @@ import vn.edu.hust.dms.common.error.NotFoundException;
 import vn.edu.hust.dms.support.AbstractIntegrationTest;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,49 +23,66 @@ class SettingsServiceTest extends AbstractIntegrationTest {
     private SettingRepository settingRepository;
 
     @Test
-    @DisplayName("SETTINGS V2 seeds offer_hours=48, warning_threshold=3 and repair_due_hours urgent=24 normal=72 low=168")
+    @DisplayName("SETTINGS V3 seeds the nine CLAUDE.md keys with their defaults")
     void seededDefaults() {
-        assertThat(settings.getInt(SettingKey.OFFER_HOURS)).isEqualTo(48);
+        assertThat(settings.getLong(SettingKey.WATER_FEE_MONTHLY)).isEqualTo(40_000L);
+        assertThat(settings.getLong(SettingKey.EQUIPMENT_FEE)).isEqualTo(300_000L);
+        assertThat(settings.getLong(SettingKey.ELECTRICITY_PRICE_PER_KWH)).isEqualTo(3_000L);
+        assertThat(settings.getInt(SettingKey.DEFAULT_HOLD_MINUTES)).isEqualTo(30);
+        assertThat(settings.getInt(SettingKey.OVERDUE_DAYS_BLOCK_STAY_ON)).isEqualTo(30);
+        assertThat(settings.getInt(SettingKey.REPAIR_DEADLINE_HOURS_URGENT)).isEqualTo(24);
+        assertThat(settings.getInt(SettingKey.REPAIR_DEADLINE_HOURS_NORMAL)).isEqualTo(72);
+        assertThat(settings.getInt(SettingKey.REPAIR_DEADLINE_HOURS_LOW)).isEqualTo(168);
         assertThat(settings.getInt(SettingKey.WARNING_THRESHOLD)).isEqualTo(3);
-        assertThat(settings.getInt(SettingKey.REPAIR_DUE_HOURS_URGENT)).isEqualTo(24);
-        assertThat(settings.getInt(SettingKey.REPAIR_DUE_HOURS_NORMAL)).isEqualTo(72);
-        assertThat(settings.getInt(SettingKey.REPAIR_DUE_HOURS_LOW)).isEqualTo(168);
         assertThat(settings.all()).extracting(Setting::getKey).containsExactly(
-                "offer_hours", "repair_due_hours_low", "repair_due_hours_normal", "repair_due_hours_urgent",
-                "warning_threshold");
+                "default_hold_minutes", "electricity_price_per_kwh", "equipment_fee", "overdue_days_block_stay_on",
+                "repair_deadline_hours_low", "repair_deadline_hours_normal", "repair_deadline_hours_urgent",
+                "warning_threshold", "water_fee_monthly");
         assertThat(settings.all()).allSatisfy(setting -> assertThat(setting.getDescription()).isNotBlank());
+        assertThat(settingRepository.findAllById(List.of("offer_hours", "repair_due_hours_urgent",
+                "repair_due_hours_normal", "repair_due_hours_low"))).as("the Phase 0 keys are gone").isEmpty();
     }
 
     @Test
-    @DisplayName("SETTINGS typed getters return int, long and Duration values and update() is visible to the next read")
+    @DisplayName("SETTINGS typed getters return int, long and Duration values (minutes, hours, days) and update() is visible to the next read")
     void typedGettersAndUpdate() {
-        assertThat(settings.getLong(SettingKey.OFFER_HOURS)).isEqualTo(48L);
-        assertThat(settings.getDuration(SettingKey.OFFER_HOURS)).isEqualTo(Duration.ofHours(48));
-        assertThat(settings.getDuration(SettingKey.REPAIR_DUE_HOURS_LOW)).isEqualTo(Duration.ofDays(7));
+        assertThat(settings.getLong(SettingKey.EQUIPMENT_FEE)).isEqualTo(300_000L);
+        assertThat(settings.getDuration(SettingKey.DEFAULT_HOLD_MINUTES)).isEqualTo(Duration.ofMinutes(30));
+        assertThat(settings.getDuration(SettingKey.REPAIR_DEADLINE_HOURS_LOW)).isEqualTo(Duration.ofDays(7));
+        assertThat(settings.getDuration(SettingKey.OVERDUE_DAYS_BLOCK_STAY_ON)).isEqualTo(Duration.ofDays(30));
         assertThatThrownBy(() -> settings.getDuration(SettingKey.WARNING_THRESHOLD))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> settings.getDuration(SettingKey.WATER_FEE_MONTHLY))
                 .isInstanceOf(IllegalArgumentException.class);
 
         clock.advance(Duration.ofMinutes(5));
-        Setting updated = settings.update("offer_hours", " 72 ");
+        Setting updated = settings.update("default_hold_minutes", " 45 ");
 
-        assertThat(updated.getValue()).isEqualTo("72");
+        assertThat(updated.getValue()).isEqualTo("45");
         assertThat(updated.getUpdatedAt()).isEqualTo(clock.instant());
-        assertThat(settings.getInt(SettingKey.OFFER_HOURS)).isEqualTo(72);
-        assertThat(settings.getDuration(SettingKey.OFFER_HOURS)).isEqualTo(Duration.ofHours(72));
+        assertThat(settings.getInt(SettingKey.DEFAULT_HOLD_MINUTES)).isEqualTo(45);
+        assertThat(settings.getDuration(SettingKey.DEFAULT_HOLD_MINUTES)).isEqualTo(Duration.ofMinutes(45));
     }
 
     @Test
     @DisplayName("SETTINGS update() with a value that does not parse for the key type throws InvalidSettingValueException (422)")
     void invalidValueIsRejected() {
-        assertThatThrownBy(() -> settings.update("offer_hours", "two days"))
+        assertThatThrownBy(() -> settings.update("default_hold_minutes", "two days"))
                 .isInstanceOf(InvalidSettingValueException.class)
                 .satisfies(ex -> assertThat(((DomainException) ex).status()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT))
-                .hasMessageContaining("offer_hours");
-        assertThatThrownBy(() -> settings.update("offer_hours", "-1"))
+                .hasMessageContaining("default_hold_minutes");
+        assertThatThrownBy(() -> settings.update("default_hold_minutes", "0"))
+                .isInstanceOf(InvalidSettingValueException.class);
+        assertThatThrownBy(() -> settings.update("water_fee_monthly", "-1"))
+                .isInstanceOf(InvalidSettingValueException.class);
+        assertThatThrownBy(() -> settings.update("repair_deadline_hours_low", "-1"))
+                .isInstanceOf(InvalidSettingValueException.class);
+        assertThatThrownBy(() -> settings.update("overdue_days_block_stay_on", "-1"))
                 .isInstanceOf(InvalidSettingValueException.class);
         assertThatThrownBy(() -> settings.update("warning_threshold", "3.5"))
                 .isInstanceOf(InvalidSettingValueException.class);
-        assertThat(settings.getInt(SettingKey.OFFER_HOURS)).isEqualTo(48);
+        assertThat(settings.getInt(SettingKey.DEFAULT_HOLD_MINUTES)).isEqualTo(30);
+        assertThat(settings.getLong(SettingKey.WATER_FEE_MONTHLY)).isEqualTo(40_000L);
     }
 
     @Test
@@ -78,10 +96,10 @@ class SettingsServiceTest extends AbstractIntegrationTest {
     @Test
     @DisplayName("SETTINGS reading a key whose row was deleted throws IllegalStateException (configuration error)")
     void missingRowIsConfigurationError() {
-        settingRepository.deleteById("offer_hours");
+        settingRepository.deleteById("default_hold_minutes");
 
-        assertThatThrownBy(() -> settings.getInt(SettingKey.OFFER_HOURS))
+        assertThatThrownBy(() -> settings.getInt(SettingKey.DEFAULT_HOLD_MINUTES))
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("offer_hours");
+                .hasMessageContaining("default_hold_minutes");
     }
 }

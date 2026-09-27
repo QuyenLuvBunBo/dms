@@ -42,39 +42,39 @@ class RoleAccessTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("ROLE ADMIN gets 200 on GET /api/settings and PUT /api/settings/offer_hours changes the value")
+    @DisplayName("ROLE ADMIN gets 200 on GET /api/settings and PUT /api/settings/default_hold_minutes changes the value")
     void adminReadsAndUpdatesSettings() {
         ApiClient api = api();
         assertThat(api.loginAs(testUsers.create(Role.ADMIN)).status()).isEqualTo(200);
 
         ApiResponse list = api.get("/api/settings");
         assertThat(list.status()).isEqualTo(200);
-        assertThat(list.body().size()).isEqualTo(5);
+        assertThat(list.body().size()).isEqualTo(9);
         assertThat(list.body().findValuesAsString("key"))
-                .contains("offer_hours", "warning_threshold", "repair_due_hours_urgent");
+                .contains("default_hold_minutes", "warning_threshold", "repair_deadline_hours_urgent");
 
-        ApiResponse update = api.put("/api/settings/offer_hours", Map.of("value", "72"));
+        ApiResponse update = api.put("/api/settings/default_hold_minutes", Map.of("value", "72"));
         assertThat(update.status()).isEqualTo(200);
-        assertThat(update.body().path("key").asString()).isEqualTo("offer_hours");
+        assertThat(update.body().path("key").asString()).isEqualTo("default_hold_minutes");
         assertThat(update.body().path("value").asString()).isEqualTo("72");
-        assertThat(update.body().path("type").asString()).isEqualTo("HOURS");
-        assertThat(settings.getInt(SettingKey.OFFER_HOURS)).isEqualTo(72);
+        assertThat(update.body().path("type").asString()).isEqualTo("MINUTES");
+        assertThat(settings.getInt(SettingKey.DEFAULT_HOLD_MINUTES)).isEqualTo(72);
 
-        ApiResponse invalid = api.put("/api/settings/offer_hours", Map.of("value", "soon"));
+        ApiResponse invalid = api.put("/api/settings/default_hold_minutes", Map.of("value", "soon"));
         assertThat(invalid.status()).isEqualTo(422);
         ApiResponse unknown = api.put("/api/settings/no_such_key", Map.of("value", "1"));
         assertThat(unknown.status()).isEqualTo(404);
     }
 
     @Test
-    @DisplayName("ROLE STUDENT PUT /api/settings/offer_hours returns 403 and leaves the value unchanged")
+    @DisplayName("ROLE STUDENT PUT /api/settings/default_hold_minutes returns 403 and leaves the value unchanged")
     void studentCannotUpdateSettings() {
         ApiClient api = api();
         assertThat(api.loginAs(testUsers.create(Role.STUDENT)).status()).isEqualTo(200);
 
-        ApiResponse response = api.put("/api/settings/offer_hours", Map.of("value", "1"));
+        ApiResponse response = api.put("/api/settings/default_hold_minutes", Map.of("value", "1"));
 
         assertThat(response.status()).isEqualTo(403);
-        assertThat(settings.getInt(SettingKey.OFFER_HOURS)).isEqualTo(48);
+        assertThat(settings.getInt(SettingKey.DEFAULT_HOLD_MINUTES)).isEqualTo(30);
     }
 }

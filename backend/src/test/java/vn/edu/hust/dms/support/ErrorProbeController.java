@@ -3,12 +3,15 @@ package vn.edu.hust.dms.support;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.edu.hust.dms.common.error.BusinessRuleViolationException;
+import vn.edu.hust.dms.common.error.ConflictException;
+import vn.edu.hust.dms.common.error.InvalidRequestException;
 import vn.edu.hust.dms.common.error.InvalidStateTransitionException;
 import vn.edu.hust.dms.common.error.NotFoundException;
 
@@ -27,17 +30,32 @@ public class ErrorProbeController {
 
     @GetMapping("/conflict")
     public void conflict() {
-        throw new InvalidStateTransitionException("Cannot approve an application in status DRAFT");
+        throw new InvalidStateTransitionException("Cannot confirm a registration in status EXPIRED");
+    }
+
+    @GetMapping("/resource-conflict")
+    public void resourceConflict() {
+        throw new ConflictException("Room 301 has occupied beds");
     }
 
     @GetMapping("/rule")
     public void rule() {
-        throw new BusinessRuleViolationException("BR-03", "Cannot assign a MALE student to a FEMALE room");
+        throw new BusinessRuleViolationException("BR-03", "Cannot hold a bed in a FEMALE room for a MALE student");
+    }
+
+    @GetMapping("/invalid-request")
+    public void invalidRequest() {
+        throw new InvalidRequestException("The room type belongs to another building");
     }
 
     @GetMapping("/not-found")
     public void notFound() {
-        throw new NotFoundException("Application 42 not found");
+        throw new NotFoundException("Registration 42 not found");
+    }
+
+    @GetMapping("/data-integrity")
+    public void dataIntegrity() {
+        throw new DataIntegrityViolationException("Duplicate entry 'B6' for key 'buildings.uk_buildings_code'");
     }
 
     @GetMapping("/unexpected")

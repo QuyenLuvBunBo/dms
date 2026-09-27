@@ -4,18 +4,26 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * Every setting the application reads. The rows themselves are seeded by Flyway
- * (V2__seed_settings.sql); later phases add keys here and in a new migration.
+ * Every setting the application reads, with the defaults of CLAUDE.md. The rows themselves are
+ * seeded by Flyway (V3__spec_v2_roles_and_settings.sql); later keys go here and in a new migration.
  */
 public enum SettingKey {
-    /** BR-05: hours a bed offer stays open. */
-    OFFER_HOURS("offer_hours", SettingType.HOURS),
-    /** BR-11: violations in one term that create an eviction proposal. */
-    WARNING_THRESHOLD("warning_threshold", SettingType.INTEGER),
+    /** BR-12: water fee per month, part of the semester fee. */
+    WATER_FEE_MONTHLY("water_fee_monthly", SettingType.MONEY),
+    /** BR-12: equipment fee, charged once in FIRST_TIME rounds. */
+    EQUIPMENT_FEE("equipment_fee", SettingType.MONEY),
+    /** BR-07: electricity price per kWh. */
+    ELECTRICITY_PRICE_PER_KWH("electricity_price_per_kwh", SettingType.MONEY),
+    /** BR-05: hold time pre-filled for a new registration round. */
+    DEFAULT_HOLD_MINUTES("default_hold_minutes", SettingType.MINUTES),
+    /** BR-09: days after issue after which an unpaid electricity invoice blocks stay-on. */
+    OVERDUE_DAYS_BLOCK_STAY_ON("overdue_days_block_stay_on", SettingType.DAYS),
     /** BR-10: repair deadline by priority. */
-    REPAIR_DUE_HOURS_URGENT("repair_due_hours_urgent", SettingType.HOURS),
-    REPAIR_DUE_HOURS_NORMAL("repair_due_hours_normal", SettingType.HOURS),
-    REPAIR_DUE_HOURS_LOW("repair_due_hours_low", SettingType.HOURS);
+    REPAIR_DEADLINE_HOURS_URGENT("repair_deadline_hours_urgent", SettingType.HOURS),
+    REPAIR_DEADLINE_HOURS_NORMAL("repair_deadline_hours_normal", SettingType.HOURS),
+    REPAIR_DEADLINE_HOURS_LOW("repair_deadline_hours_low", SettingType.HOURS),
+    /** BR-11: violations in one term that create a warning review. */
+    WARNING_THRESHOLD("warning_threshold", SettingType.INTEGER);
 
     private final String key;
     private final SettingType type;
