@@ -36,8 +36,10 @@ Mọi phase từ 0 đến 6 đều đi đúng 6 bước này. Các mục sau ch�
 
 ```bash
 git checkout main && git pull
-git checkout -b phase-N
+git checkout -b phase-1        # thay số theo phase đang làm: phase-0, phase-1, ...
 ```
+
+Trong mọi prompt bên dưới, **N là số phase** — thay bằng số thật trước khi gửi.
 
 **② Xóa ngữ cảnh cũ:** gõ `/clear` trong Claude Code. Phase trước đã ghi vào `PROGRESS.md` nên không mất gì.
 
@@ -79,150 +81,166 @@ Rồi `git push -u origin phase-N`, mở Pull Request trên GitHub, **một ngư
 
 ---
 
-## Phase 0 — Setup và phân quyền
+## Phase 0 — Setup và phân quyền ✅ xong
 
-Chạy vòng lặp chuẩn với N = 0.
-
-**Kiểm tra kế hoạch — phải có đủ:**
-- Testcontainers MySQL, **không có H2**
-- Bean `Clock` inject được, và test clock đổi được thời gian
-- Flyway migration, **không có** `ddl-auto=update`
-- `@RestControllerAdvice` trả `ProblemDetail`
-- Seed 1 tài khoản cho mỗi role
-
-**Tự kiểm tra:** đăng nhập lần lượt 5 role, mỗi role chỉ thấy menu của mình. Đăng nhập student rồi thử gọi một URL admin → phải bị 403.
+Kèm nâng cấp lên Spring Boot 4.1.
 
 ---
 
-## Phase 1 — Tòa nhà, phòng, giường
+## Phase 1 — Tòa nhà, loại phòng, quản lý tòa
 
 Chạy vòng lặp chuẩn với N = 1.
 
-**Kiểm tra kế hoạch:** phòng có người ở thì không xóa được; số giường khớp sức chứa phòng.
+**Kiểm tra kế hoạch — phải có đủ:**
+- Migration thêm role `BUILDING_MANAGER`, bỏ `AFFAIRS`, cập nhật tài khoản seed
+- Thay các settings seed của Phase 0 bằng bảng settings mới trong `CLAUDE.md`
+- Loại phòng gắn theo tòa, có sức chứa, diện tích, tiện ích, giá thuê tháng
+- BR-14 được test trên **mọi** endpoint của phần facility, và trả về 404 chứ không phải 403
 
-**Sau khi xong:** chụp vài ảnh màn hình trang danh sách phòng và chi tiết phòng — dùng cho Claude Design ở bước sau.
+**Tự kiểm tra:** đăng nhập quản lý B6, thử mở một phòng của B9 bằng URL → phải ra 404.
 
----
-
-## Claude Design — người phụ trách UI làm song song với Phase 0–1
-
-**Mở ở đâu:** claude.ai → chat mới (hoặc claude.ai/design).
-
-**Gửi kèm file:** `CLAUDE.md` và `docs/BUILD_PLAN.md` (để nó biết các trạng thái và dữ liệu thật). Nếu Phase 1 đã xong thì gửi thêm ảnh chụp màn hình để giữ phong cách nhất quán.
-
-**Prompt 1 — Cổng sinh viên:**
-
-```
-Using the attached CLAUDE.md and BUILD_PLAN.md, design the student portal
-for a university Dormitory Management System. English UI, mobile-first,
-clean and minimal. Screens:
-1. Dashboard: current room and bed, contract status, unpaid invoices,
-   open repair tickets
-2. Application: form, then a status page showing the priority score
-   breakdown by criterion
-3. Invoice detail: rent line, utility line with the full calculation
-   (room total, my days in room, total occupant-days, my share),
-   adjustment lines, Pay button
-4. Repair tickets: report a fault, list with status and due date
-Use realistic sample data with Vietnamese student names and VND amounts.
-```
-
-**Prompt 2 — Phía admin:**
-
-```
-Now design the admin side, desktop-first, same visual style:
-1. Admission round setup: quota, deadline, and a weights editor for the
-   four scoring criteria
-2. Application review: table sorted by priority score, expandable score
-   breakdown, Approve / Reject / Waitlist actions
-3. Bed assignment board: grid of rooms per floor, each room showing
-   gender lock, occupied and free beds; select an approved applicant
-   then click a free bed to assign
-Show me 2–3 layout options for the bed assignment board.
-```
-
-**Prompt 3 — Kế toán và kỹ thuật viên:**
-
-```
-Design the remaining roles, same style:
-1. Accountant: monthly meter reading entry grid per room (with a warning
-   when a reading is lower than last month), invoice generation for a
-   month, payment list
-2. Technician: ticket queue sorted by due date, overdue tickets highlighted,
-   ticket detail with status actions
-```
-
-**Chỉnh sửa:** sửa bố cục lớn thì nói trong chat; sửa một nút, một khoảng cách thì click thẳng lên canvas để comment. Chốt bố cục trên giấy trong buổi họp nhóm trước khi vẽ — mỗi lần vẽ lại đều ăn vào quota dùng chung với Claude Code.
-
-**Bàn giao:** bấm **Export → Handoff to Claude Code → Send to local coding agent**. Nó đưa ra một prompt có chứa URL của gói thiết kế — **copy lại prompt này**, dùng ở Phase 2.
+**Sau khi xong:** chụp màn hình danh sách phòng và chi tiết phòng cho Claude Design.
 
 ---
 
-## Phase 2 — Đợt đăng ký và đơn
+## Claude Design — làm song song với Phase 1
 
-Vòng lặp chuẩn, nhưng **bước ③ thay bằng:**
+Bộ màn hình cũ vẽ theo mô hình chấm điểm và admin xếp giường, **không dùng nữa**. Trong project Claude Design đang có, gửi prompt làm lại ở dưới.
+
+**Gửi kèm:** `CLAUDE.md` và `docs/BUILD_PLAN.md` mới từ repo, file thông báo KTX K71 (PDF), và ảnh chụp màn hình Phase 1 nếu đã có.
+
+**Prompt 1 — Làm lại Phase 2–3:**
+
+```
+The process changed after our field study. Discard the Phase 2–3 screens
+(scoring, admin review, bed assignment). Use the attached CLAUDE.md,
+BUILD_PLAN.md and the official HUST dormitory notice. Keep the existing
+visual style, sidebar and status badge conventions.
+
+Student (desktop and mobile):
+1. Rounds list: each round with my priority group's opening time and a
+   countdown; locked until my window opens
+2. Declaration: personal, academic, address and family details, priority
+   group, photo upload, proof upload (required for UT1/UT2)
+3. Registration wizard in 4 steps like the current portal: confirm details
+   → choose building (free beds per building) → choose room (free beds,
+   room type, monthly rent, amenities, room gender, floor preference as a
+   default filter) → confirm with the semester fee breakdown
+4. Hold screen: 30-minute countdown, simulated QR payment, fee breakdown
+   (rent × months, water × months, equipment fee)
+5. States: window not open yet, bed just taken by someone else (409),
+   hold expired, room full
+6. My residence: bed, stay period, residence history, roommates
+
+Building manager:
+7. Check-in: search student, photo and declaration, verify or reject
+   priority proof, check in button disabled until proof is verified
+   for UT1/UT2
+
+Centre administrator:
+8. Round setup: type, stay period, hold minutes, buildings offered, and
+   one opening time per priority group (UT1, UT2, UT3)
+
+Use realistic Vietnamese student names, buildings B6 and B9, and the real
+prices: 6-student room 1,050,000, 8-student 730,000, 10-student 550,000
+VND per month, water 40,000, equipment 300,000.
+```
+
+**Prompt 2 — Trước Phase 4:**
+
+```
+Design the electricity screens in the same style:
+1. Building manager: end-of-month meter reading grid for a whole building,
+   with a warning when a reading is lower than last month
+2. Student: my electricity share for a month — room consumption, price per
+   kWh, my days, total occupant-days, my share, Pay button; and the case of
+   a mid-month transfer with two rooms
+```
+
+**Prompt 3 — Trước Phase 5:**
+
+```
+Design in the same style:
+1. Student: report a fault, my tickets with status and due date,
+   building announcements feed
+2. Building manager: ticket queue sorted by due date with overdue
+   highlighted, assign technician, publish announcement, record violation
+3. Technician: my assigned tickets with status actions
+```
+
+**Bàn giao:** **Export → Handoff to Claude Code → Send to local coding agent**, lưu prompt để dán vào `/plan` của phase tương ứng.
+
+---
+
+## Phase 2 — Đợt đăng ký, khai báo, chọn phòng, giữ chỗ ⚠️ phase khó nhất
+
+Vòng lặp chuẩn, **bước ③ thay bằng:**
 
 ```
 /plan Read CLAUDE.md, docs/BUILD_PLAN.md and docs/PROGRESS.md.
 Plan Phase 2. Also read the design handoff below and use it ONLY for the
-screens that belong to Phase 2 (application form, application status,
-admission round setup, application review). Ignore the other screens for now.
-Include the BR tests you will write first, every file you will create or
-change, and any ambiguity.
+Phase 2 screens (rounds list, declaration, registration wizard, hold
+screen and its states, round setup). Include the BR tests you will write
+first, every file you will create or change, and any ambiguity.
 
-<dán nguyên prompt handoff từ Claude Design vào đây>
+<dán prompt handoff từ Claude Design vào đây>
 ```
 
-**Kiểm tra kế hoạch:** trọng số chấm điểm đọc từ `scoring_config` của đợt, không nằm trong code (BR-01); có test chứng minh đổi trọng số thì thứ hạng đổi.
-
-**Sau khi merge:** trong Claude Code gõ `/design-sync` và làm theo hướng dẫn để kéo component của frontend về Claude Design. Các màn vẽ sau sẽ dùng đúng component đã có.
-
----
-
-## Phase 3 — Xếp giường và hợp đồng ⚠️ phase khó nhất
-
-Vòng lặp chuẩn. Ở bước ③ thêm dòng: `Use the design handoff for the bed assignment board and the student dashboard.` và dán lại prompt handoff.
-
 **Kiểm tra kế hoạch — soi kỹ:**
-- BR-04: test phải chạy **2 thread thật** (ExecutorService + CountDownLatch) trên MySQL, và khẳng định **đúng 1** thành công
-- BR-03: có test cả khóa lẫn **mở khóa** giới tính khi người cuối rời phòng
-- BR-05: dùng test clock để tua qua hạn offer, không dùng `Thread.sleep`
-- Chuyển phòng: đóng dòng `residence_histories` cũ, mở dòng mới, **cùng một hợp đồng**
+- BR-04 có **2 test**: 2 thread giành 1 giường (đúng 1 thành công), và 50 thread giành 10 giường (đúng 10 lượt giữ, không giường nào bị giữ 2 lần). Chạy trên MySQL thật, không `Thread.sleep`
+- BR-05 dùng test clock để tua qua 30 phút; hóa đơn phải chuyển `VOID`, không bị xóa
+- BR-12 có đủ 3 bộ số: phòng 8 người 4.920.000, phòng 10 người 3.840.000, phòng 6 người 6.840.000 — và trường hợp vào ở ngày cuối tháng vẫn tính cả tháng
+- BR-03: ưu tiên tầng theo giới tính **chỉ là bộ lọc mặc định**, không được chặn lựa chọn
+- File ảnh và minh chứng lưu ngoài database, và có test sinh viên này không tải được ảnh của sinh viên khác
 
-**Tự kiểm tra:** đi hết luồng trên UI: nộp đơn → duyệt → xếp giường → nhận → check-in → chuyển phòng → trả phòng.
+**Tự kiểm tra:** mở 2 trình duyệt (1 thường, 1 ẩn danh), đăng nhập 2 sinh viên, cùng bấm giữ một giường cuối cùng.
 
 ---
 
-## Phase 4 — Chỉ số điện nước và hóa đơn ⚠️
+## Phase 3 — Thanh toán, nhận phòng, ở lại, chuyển phòng
 
-Vòng lặp chuẩn, dùng handoff cho màn hóa đơn sinh viên và màn nhập chỉ số.
+Vòng lặp chuẩn, dùng handoff cho màn check-in và My residence.
+
+**Kiểm tra kế hoạch:**
+- Thanh toán sau khi hết giờ giữ bị từ chối với 409
+- BR-15: nút check-in bị khóa khi minh chứng UT1/UT2 chưa xác minh — và backend cũng chặn, không chỉ ẩn nút
+- BR-13: trong đợt ở lại, giường của người đang ở không hiện cho ai khác
+- File CSV khai báo lưu trú chỉ gồm cư dân của tòa mình quản lý (BR-14)
+
+**Tự kiểm tra:** đi hết luồng khai báo → giữ chỗ → thanh toán → check-in → chuyển phòng → đăng ký ở lại.
+
+---
+
+## Phase 4 — Tiền điện ⚠️
+
+Vòng lặp chuẩn, dùng handoff từ Prompt 2.
 
 **Kiểm tra kế hoạch — test BR-07 phải có đủ 5 trường hợp:**
 1. Ở cả tháng
 2. Vào ở giữa tháng
-3. Chuyển phòng giữa tháng (ra 2 dòng tiền điện, mỗi phòng một dòng)
+3. Chuyển phòng giữa tháng (ra 2 hóa đơn điện, mỗi phòng một hóa đơn)
 4. Số lẻ khi làm tròn được cộng cho người ở nhiều ngày nhất
-5. Tổng các phần **bằng đúng** tiền cả phòng
+5. Tổng các phần **bằng đúng** tiền điện cả phòng
 
-Nếu thiếu, ghi chú vào kế hoạch bắt nó bổ sung trước khi làm.
-
-**Tự kiểm tra bằng tay:** tự tính 1 phòng trên giấy, so với hóa đơn nó sinh ra.
+**Tự kiểm tra bằng tay:** lấy 1 phòng, tự tính trên giấy (số điện × 3.000đ, chia theo ngày), so với hóa đơn hệ thống sinh ra.
 
 ---
 
-## Phase 5 — Bảo trì và kỷ luật
+## Phase 5 — Sửa chữa, thông báo, vi phạm
 
-Vòng lặp chuẩn, dùng handoff cho màn kỹ thuật viên.
+Vòng lặp chuẩn, dùng handoff từ Prompt 3.
 
-**Kiểm tra kế hoạch:** kỹ thuật viên chỉ thấy phiếu giao cho mình; đề xuất đuổi khỏi KTX **không có hiệu lực** cho tới khi role AFFAIRS duyệt (BR-11).
+**Kiểm tra kế hoạch:** kỹ thuật viên chỉ thấy phiếu giao cho mình; cư dân B6 không bao giờ thấy thông báo của B9; đủ ngưỡng cảnh báo chỉ tạo yêu cầu xem xét, **không** tự động làm gì khác (BR-11).
 
 ---
 
 ## Phase 6 — Báo cáo và hoàn thiện
 
-Trước khi chạy: quay lại Claude Design vẽ các dashboard (tỷ lệ lấp đầy, công nợ, tiêu thụ theo tháng, thời gian xử lý sửa chữa), handoff lại như trên.
+Trước khi chạy: vẽ các dashboard trên Claude Design, handoff như trên.
 
-Vòng lặp chuẩn. **Tự kiểm tra:** xóa sạch DB, chạy với profile `demo`, mọi dashboard phải có số liệu có nghĩa. Chạy `./mvnw test` — toàn bộ BR-01 đến BR-11 phải pass.
+**Kiểm tra kế hoạch:** có script mô phỏng mở cửa sổ đăng ký với vài trăm sinh viên giữ chỗ cùng lúc, và kiểm tra sau đó không giường nào bị giữ 2 lần.
+
+**Tự kiểm tra:** xóa sạch DB, chạy với profile `demo`, mọi dashboard có số liệu có nghĩa. `./mvnw test` — toàn bộ BR-01 đến BR-15 phải pass.
 
 ---
 
@@ -253,6 +271,6 @@ Fix the implementation instead, or tell me if the test itself is wrong and why.
 | Ở đâu | Gửi gì |
 |---|---|
 | Repo (Claude Code tự đọc) | `CLAUDE.md` ở gốc; `docs/BUILD_PLAN.md`, `docs/PROGRESS.md` |
-| Claude Design | Đính kèm `CLAUDE.md` + `BUILD_PLAN.md`; ảnh chụp màn hình app khi đã có |
+| Claude Design | Đính kèm `CLAUDE.md` + `BUILD_PLAN.md` từ repo, thông báo KTX K71 (PDF); ảnh chụp màn hình app khi đã có |
 | Claude Code, bước `/plan` các phase có giao diện | Dán prompt handoff từ Claude Design |
 | Form nộp đề tài | `DMS_Project_Proposal_Group7.docx` — **không** cần đưa vào repo |
