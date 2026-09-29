@@ -7,6 +7,7 @@ import vn.edu.hust.dms.common.error.NotFoundException;
 
 import java.time.Clock;
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -43,10 +44,9 @@ public class SettingsService {
 
     @Transactional(readOnly = true)
     public Duration getDuration(SettingKey key) {
-        if (key.type() != SettingType.HOURS) {
-            throw new IllegalArgumentException("Setting " + key.key() + " is not a duration");
-        }
-        return Duration.ofHours(getLong(key));
+        ChronoUnit unit = key.type().durationUnit()
+                .orElseThrow(() -> new IllegalArgumentException("Setting " + key.key() + " is not a duration"));
+        return Duration.of(getLong(key), unit);
     }
 
     @Transactional(readOnly = true)

@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class AuditServiceTest extends AbstractIntegrationTest {
 
-    private enum ApplicationStatus { DRAFT, SUBMITTED }
+    private enum SampleStatus { HELD, CONFIRMED }
 
     @Autowired
     private AuditService audit;
@@ -46,38 +46,38 @@ class AuditServiceTest extends AbstractIntegrationTest {
         actAs(admin);
 
         AuditLog saved = transaction.execute(status ->
-                audit.record(AuditSubjectType.APPLICATION, 42L, "SUBMITTED", "APPROVED"));
+                audit.record(AuditSubjectType.REGISTRATION, 42L, "HELD", "CONFIRMED"));
         AuditLog viaEnum = transaction.execute(status ->
-                audit.record(AuditSubjectType.APPLICATION, 43L, ApplicationStatus.DRAFT, ApplicationStatus.SUBMITTED));
+                audit.record(AuditSubjectType.REGISTRATION, 43L, SampleStatus.HELD, SampleStatus.CONFIRMED));
 
         AuditLog stored = auditLogs.findById(saved.getId()).orElseThrow();
-        assertThat(stored.getSubjectType()).isEqualTo(AuditSubjectType.APPLICATION);
+        assertThat(stored.getSubjectType()).isEqualTo(AuditSubjectType.REGISTRATION);
         assertThat(stored.getSubjectId()).isEqualTo(42L);
-        assertThat(stored.getFromStatus()).isEqualTo("SUBMITTED");
-        assertThat(stored.getToStatus()).isEqualTo("APPROVED");
+        assertThat(stored.getFromStatus()).isEqualTo("HELD");
+        assertThat(stored.getToStatus()).isEqualTo("CONFIRMED");
         assertThat(stored.getUserId()).isEqualTo(admin.id());
         assertThat(stored.getCreatedAt()).isEqualTo(TestClockConfig.INITIAL);
         assertThat(auditLogs.findById(viaEnum.getId()).orElseThrow())
                 .extracting(AuditLog::getFromStatus, AuditLog::getToStatus)
-                .containsExactly("DRAFT", "SUBMITTED");
+                .containsExactly("HELD", "CONFIRMED");
     }
 
     @Test
     @DisplayName("AUDIT record() with no authenticated user stores a null user id")
     void systemActionHasNoUser() {
         AuditLog saved = transaction.execute(status ->
-                audit.record(AuditSubjectType.BED_OFFER, 7L, (String) null, "EXPIRED"));
+                audit.record(AuditSubjectType.ROOM_ASSET, 7L, (String) null, "GOOD"));
 
         AuditLog stored = auditLogs.findById(saved.getId()).orElseThrow();
         assertThat(stored.getUserId()).isNull();
         assertThat(stored.getFromStatus()).isNull();
-        assertThat(stored.getToStatus()).isEqualTo("EXPIRED");
+        assertThat(stored.getToStatus()).isEqualTo("GOOD");
     }
 
     @Test
     @DisplayName("AUDIT record() outside a transaction fails with IllegalTransactionStateException (Propagation.MANDATORY)")
     void requiresCallerTransaction() {
-        assertThatThrownBy(() -> audit.record(AuditSubjectType.CONTRACT, 1L, "PENDING", "ACTIVE"))
+        assertThatThrownBy(() -> audit.record(AuditSubjectType.RESIDENCE, 1L, "PENDING_CHECK_IN", "ACTIVE"))
                 .isInstanceOf(IllegalTransactionStateException.class);
         assertThat(auditLogs.count()).isZero();
     }
@@ -86,17 +86,17 @@ class AuditServiceTest extends AbstractIntegrationTest {
     @DisplayName("AUDIT advancing the MutableClock by 3 days changes created_at of the next row")
     void createdAtFollowsTheTestClock() {
         AuditLog first = transaction.execute(status ->
-                audit.record(AuditSubjectType.CONTRACT, 1L, "PENDING", "ACTIVE"));
+                audit.record(AuditSubjectType.RESIDENCE, 1L, "PENDING_CHECK_IN", "ACTIVE"));
 
         clock.advanceDays(3);
         AuditLog second = transaction.execute(status ->
-                audit.record(AuditSubjectType.CONTRACT, 1L, "ACTIVE", "TERMINATED"));
+                audit.record(AuditSubjectType.RESIDENCE, 1L, "ACTIVE", "ENDED"));
 
         assertThat(first.getCreatedAt()).isEqualTo(TestClockConfig.INITIAL);
         assertThat(second.getCreatedAt()).isEqualTo(TestClockConfig.INITIAL.plus(Duration.ofDays(3)));
-        assertThat(auditLogs.findBySubjectTypeAndSubjectIdOrderByCreatedAtAscIdAsc(AuditSubjectType.CONTRACT, 1L))
+        assertThat(auditLogs.findBySubjectTypeAndSubjectIdOrderByCreatedAtAscIdAsc(AuditSubjectType.RESIDENCE, 1L))
                 .extracting(AuditLog::getToStatus)
-                .containsExactly("ACTIVE", "TERMINATED");
+                .containsExactly("ACTIVE", "ENDED");
     }
 
     private void actAs(Credentials credentials) {

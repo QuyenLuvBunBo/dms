@@ -35,17 +35,33 @@ public abstract class AbstractIntegrationTest {
     protected MutableClock clock;
 
     @Autowired
+    protected TestBedOccupancy bedOccupancy;
+
+    @Autowired
     private DatabaseCleaner databaseCleaner;
 
     @BeforeEach
     void resetSharedState() {
         databaseCleaner.clean();
         clock.reset();
+        bedOccupancy.clear();
         SecurityContextHolder.clearContext();
     }
 
     /** A fresh "browser": no cookies yet. */
     protected ApiClient api() {
         return new ApiClient(port);
+    }
+
+    /** A fresh "browser" already logged in as the given user. */
+    protected ApiClient loggedIn(TestUsers.Credentials user) {
+        ApiClient api = api();
+        FacilityFixture.expect(200, api.loginAs(user));
+        return api;
+    }
+
+    /** The shared MySQL container, for tests that need a second schema (migration tests). */
+    protected static MySQLContainer mysql() {
+        return MYSQL;
     }
 }

@@ -37,7 +37,7 @@ class ApiExceptionHandlerTest extends AbstractIntegrationTest {
         assertThat(response.contentType()).startsWith("application/problem+json");
         assertThat(response.body().path("status").asInt()).isEqualTo(409);
         assertThat(response.body().path("title").asString()).isEqualTo("Conflict");
-        assertThat(response.body().path("detail").asString()).isEqualTo("Cannot approve an application in status DRAFT");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Cannot confirm a registration in status EXPIRED");
     }
 
     @Test
@@ -48,7 +48,40 @@ class ApiExceptionHandlerTest extends AbstractIntegrationTest {
         assertThat(response.status()).isEqualTo(422);
         assertThat(response.contentType()).startsWith("application/problem+json");
         assertThat(response.body().path("rule").asString()).isEqualTo("BR-03");
-        assertThat(response.body().path("detail").asString()).isEqualTo("Cannot assign a MALE student to a FEMALE room");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Cannot hold a bed in a FEMALE room for a MALE student");
+    }
+
+    @Test
+    @DisplayName("ERROR ConflictException maps to 409")
+    void conflictIs409() {
+        ApiResponse response = api.get("/api/test/errors/resource-conflict");
+
+        assertThat(response.status()).isEqualTo(409);
+        assertThat(response.contentType()).startsWith("application/problem+json");
+        assertThat(response.body().path("title").asString()).isEqualTo("Conflict");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Room 301 has occupied beds");
+    }
+
+    @Test
+    @DisplayName("ERROR InvalidRequestException maps to 422 without a rule")
+    void invalidRequestIsUnprocessableWithoutRule() {
+        ApiResponse response = api.get("/api/test/errors/invalid-request");
+
+        assertThat(response.status()).isEqualTo(422);
+        assertThat(response.contentType()).startsWith("application/problem+json");
+        assertThat(response.body().path("detail").asString()).isEqualTo("The room type belongs to another building");
+        assertThat(response.body().has("rule")).isFalse();
+    }
+
+    @Test
+    @DisplayName("ERROR DataIntegrityViolationException maps to 409 without SQL details")
+    void dataIntegrityViolationIs409WithoutSql() {
+        ApiResponse response = api.get("/api/test/errors/data-integrity");
+
+        assertThat(response.status()).isEqualTo(409);
+        assertThat(response.contentType()).startsWith("application/problem+json");
+        assertThat(response.body().path("detail").asString()).isEqualTo("The change conflicts with existing data");
+        assertThat(response.body().toString()).doesNotContain("Duplicate").doesNotContain("uk_buildings_code");
     }
 
     @Test
@@ -58,7 +91,7 @@ class ApiExceptionHandlerTest extends AbstractIntegrationTest {
 
         assertThat(response.status()).isEqualTo(404);
         assertThat(response.contentType()).startsWith("application/problem+json");
-        assertThat(response.body().path("detail").asString()).isEqualTo("Application 42 not found");
+        assertThat(response.body().path("detail").asString()).isEqualTo("Registration 42 not found");
     }
 
     @Test

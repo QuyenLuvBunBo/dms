@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router'
 import { ApiError } from '../api/client'
+import { landingPage, type LoginRedirect } from '../auth/lastSession'
 import { useAuth } from '../auth/useAuth'
 
 export function LoginPage() {
@@ -12,10 +13,11 @@ export function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
-  const from = (location.state as { from?: string } | null)?.from ?? '/'
+  // Never the previous user's page: see landingPage.
+  const redirect = location.state as LoginRedirect | null
 
   if (!isLoading && user) {
-    return <Navigate to={from} replace />
+    return <Navigate to={landingPage(redirect, user)} replace />
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -23,8 +25,8 @@ export function LoginPage() {
     setSubmitting(true)
     setError(null)
     try {
-      await login({ username, password })
-      navigate(from, { replace: true })
+      const me = await login({ username, password })
+      navigate(landingPage(redirect, me), { replace: true })
     } catch (caught) {
       setError(caught instanceof ApiError ? caught.detail || caught.title : 'Could not reach the server')
     } finally {

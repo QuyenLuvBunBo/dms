@@ -74,6 +74,15 @@ public final class ApiClient {
         return exchange(HttpMethod.PUT, path, body, csrfHeader());
     }
 
+    public ApiResponse delete(String path) {
+        return exchange(HttpMethod.DELETE, path, null, csrfHeader());
+    }
+
+    /** Any method, with the CSRF header on everything but GET; body may be null. */
+    public ApiResponse send(HttpMethod method, String path, Object body) {
+        return exchange(method, path, body, HttpMethod.GET.equals(method) ? Map.of() : csrfHeader());
+    }
+
     /** Sends exactly the given headers, without the automatic CSRF header. */
     public ApiResponse postRaw(String path, Object body, Map<String, String> headers) {
         return exchange(HttpMethod.POST, path, body, headers);

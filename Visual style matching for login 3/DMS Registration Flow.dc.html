@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#e9edf2;color:#0f172a;font-family:"Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0f172a;text-decoration:underline}
+a:hover{color:#475569}
+button,input,select{font:inherit}
+</style>
+</helmet>
+<section id="turn-2" style="display:flex;flex-direction:column;gap:72px;padding:64px">
+  <div style="display:flex;flex-direction:column;gap:6px;max-width:960px">
+    <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#64748b">Turn 2 · replaces turn 1</div>
+    <h1 style="margin:0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-0.025em">DMS · Registration, hold, payment &amp; check-in</h1>
+    <p style="margin:0;font-size:14px;line-height:20px;color:#64748b;text-wrap:pretty">Follows the HUST notice for K71, semester 20261: B6 and B9, windows UT1 19 Aug → UT2 20 Aug → UT3 21 Aug, stay 03 Sep 2026 – 25 Feb 2027 (6 months), 30-minute hold. Scenario: Nguyễn Thị Thu Trang, UT2, registers on 20 Aug 2026. Student <a href="#2a">2a</a>–<a href="#2i">2i</a> &amp; <a href="#2t">2t</a>, mobile <a href="#2j">2j</a>–<a href="#2o">2o</a>, building manager <a href="#2p">2p</a>–<a href="#2q">2q</a>, centre administrator <a href="#2r">2r</a> &amp; <a href="#2u">2u</a>, badges <a href="#2s">2s</a>.</p>
+  </div>
+
+  <!-- ================= STUDENT ================= -->
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <h2 style="margin:0;font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#334155">Student · rounds &amp; declaration</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+
+      <div id="2a" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2a</span><span style="font-size:14px;font-weight:500;color:#334155">Rounds list — locked until my UT2 window opens · 20 Aug, 07:52</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="STUDENT" active="Registration" full-name="Nguyễn Thị Thu Trang" role-label="Student" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:24px">
+            <div>
+              <h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">Registration</h1>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">Your priority group: <span style="font-weight:500;color:#334155">UT2</span> · Opening times differ by priority group.</p>
+            </div>
+            <div style="max-width:960px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden">
+              <div style="padding:24px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px">
+                <div style="display:flex;flex-direction:column;gap:16px">
+                  <div>
+                    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px;line-height:28px;font-weight:600;letter-spacing:-0.02em">K71 first-time registration · semester 20261</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fff;color:#475569;box-shadow:inset 0 0 0 1px #cbd5e1">FIRST_TIME</span></div>
+                    <div style="margin-top:2px;font-size:14px;color:#64748b">Buildings B6, B9 · Stay 03 Sep 2026 – 25 Feb 2027 · Closes 31 Aug 2026, 17:00 or when beds run out</div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <sc-for list="{{ windows }}" as="w" hint-placeholder-count="3">
+                      <div style="display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;border-radius:6px;padding:8px 12px;background:{{ w.bg }};box-shadow:inset 0 0 0 1px {{ w.bd }}">
+                        <span style="font-size:13px;font-weight:600;color:{{ w.fg }}">{{ w.g }}</span>
+                        <span style="font-size:14px;color:{{ w.fg }}">{{ w.at }}</span>
+                        <span style="font-size:12px;font-weight:500;color:{{ w.nc }}">{{ w.note }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0;padding:20px;display:flex;flex-direction:column;gap:14px;align-items:stretch">
+                  <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Your window opens in</div>
+                  <div style="display:flex;gap:8px">
+                    <div style="flex:1;border-radius:6px;background:#fff;border:1px solid #e2e8f0;padding:8px 0;text-align:center"><div style="font-size:28px;line-height:34px;font-weight:600;font-variant-numeric:tabular-nums">00</div><div style="font-size:11px;color:#64748b">hours</div></div>
+                    <div style="flex:1;border-radius:6px;background:#fff;border:1px solid #e2e8f0;padding:8px 0;text-align:center"><div style="font-size:28px;line-height:34px;font-weight:600;font-variant-numeric:tabular-nums">07</div><div style="font-size:11px;color:#64748b">minutes</div></div>
+                    <div style="flex:1;border-radius:6px;background:#fff;border:1px solid #e2e8f0;padding:8px 0;text-align:center"><div style="font-size:28px;line-height:34px;font-weight:600;font-variant-numeric:tabular-nums">42</div><div style="font-size:11px;color:#64748b">seconds</div></div>
+                  </div>
+                  <button type="button" disabled style="border-radius:6px;border:0;background:#0f172a;opacity:.6;padding:10px 14px;font-size:14px;font-weight:500;color:#fff">Register · opens 08:00</button>
+                  <span style="font-size:12px;line-height:16px;color:#64748b;text-wrap:pretty">Free beds right now: B6 214 · B9 402. UT1 students have been choosing since yesterday.</span>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 24px;border-top:1px solid #e2e8f0;background:#f8fafc;font-size:13px;color:#475569">
+                <span>Declaration submitted · Proof <span style="border-radius:9999px;padding:1px 7px;font-size:11px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">PENDING</span> — bring the original to check-in</span>
+                <a href="#2b" style="font-weight:500">View declaration</a>
+              </div>
+            </div>
+            <div style="max-width:960px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;opacity:.75">
+              <div>
+                <div style="display:flex;align-items:center;gap:10px"><span style="font-size:15px;font-weight:600">Stay-on · semester 20261</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fff;color:#475569;box-shadow:inset 0 0 0 1px #cbd5e1">STAY_ON</span></div>
+                <div style="font-size:13px;color:#64748b">For students with an active residence — keep your current bed.</div>
+              </div>
+              <span style="font-size:13px;font-weight:500;color:#64748b">Not eligible</span>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <div id="2b" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2b</span><span style="font-size:14px;font-weight:500;color:#334155">Declaration — details, priority group, photo &amp; proof</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="STUDENT" active="My declaration" full-name="Nguyễn Thị Thu Trang" role-label="Student" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:20px">
+            <div>
+              <h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">My declaration</h1>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">Required before you can register. Fields marked <span style="color:#b91c1c">*</span> are required.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start;max-width:960px">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:22px">
+                <sc-for list="{{ declSections }}" as="sec" hint-placeholder-count="4">
+                  <div style="display:flex;flex-direction:column;gap:12px;padding-bottom:22px;border-bottom:1px solid #f1f5f9">
+                    <h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">{{ sec.title }}</h2>
+                    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px">
+                      <sc-for list="{{ sec.fields }}" as="f" hint-placeholder-count="3">
+                        <label style="display:block;font-size:14px;grid-column:{{ f.span }}"><span style="font-weight:500;color:#334155">{{ f.label }}</span><span style="color:#b91c1c">{{ f.req }}</span><div style="margin-top:4px;border-radius:6px;border:1px solid {{ f.bd }};background:{{ f.bg }};padding:8px 12px;color:{{ f.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.value }}</div></label>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Priority group <span style="color:#b91c1c">*</span></h2>
+                  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+                    <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+                      <div style="border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;background:#fff;box-shadow:inset 0 0 0 {{ g.bw }} {{ g.bd }}">
+                        <div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border-radius:9999px;box-sizing:border-box;border:{{ g.radio }}"></span><span style="font-size:14px;font-weight:600">{{ g.g }}</span><span style="font-size:12px;color:#64748b">{{ g.opens }}</span></div>
+                        <span style="font-size:12px;line-height:16px;color:#475569;text-wrap:pretty">{{ g.desc }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:12px">
+                  <h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Photo 3×4 <span style="color:#b91c1c">*</span></h2>
+                  <div style="display:flex;gap:14px;align-items:flex-end">
+                    <div style="width:84px;height:112px;border-radius:4px;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;color:#64748b">TT</div>
+                    <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#64748b"><span>anh-the-trang.jpg · 184 KB</span><span style="border-radius:6px;border:1px solid #cbd5e1;padding:4px 10px;font-size:13px;font-weight:500;color:#334155;text-align:center">Replace</span></div>
+                  </div>
+                  <span style="font-size:12px;line-height:16px;color:#64748b">Also bring 2 printed photos to check-in.</span>
+                </div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:12px">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Priority proof <span style="color:#b91c1c">*</span></h2><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">PENDING</span></div>
+                  <div style="display:flex;align-items:center;gap:10px;border-radius:6px;border:1px solid #e2e8f0;padding:10px 12px">
+                    <span style="border-radius:4px;background:#f1f5f9;padding:4px 6px;font-size:11px;font-weight:600;color:#475569">PDF</span>
+                    <span style="flex:1;min-width:0;font-size:13px"><span style="display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">xac-nhan-cu-tru-lung-cu.pdf</span><span style="display:block;font-size:12px;color:#64748b">412 KB · uploaded 12 Aug 2026</span></span>
+                    <span style="font-size:13px;font-weight:500;color:#334155">Replace</span>
+                  </div>
+                  <span style="font-size:12px;line-height:16px;color:#64748b;text-wrap:pretty">Required for UT1 and UT2. The building manager checks it against the original at check-in.</span>
+                </div>
+                <button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:10px 14px;font-size:14px;font-weight:500;color:#fff">Save declaration</button>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+      <div id="2t" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2t</span><span style="font-size:14px;font-weight:500;color:#334155">Proof rejected — manager's reason, upload new proof (back to PENDING)</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="STUDENT" active="My declaration" full-name="Đỗ Hải Yến" role-label="Student" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:20px">
+            <div>
+              <h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">My declaration</h1>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">Registration REG-20261-005137 · B9-302 · Bed 8 · waiting for check-in</p>
+            </div>
+            <div style="max-width:960px"><div role="alert" style="border-radius:6px;background:#fef2f2;padding:10px 12px;font-size:14px;line-height:20px;color:#b91c1c;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Your priority proof was rejected</span><span>You can't check in until new proof is verified. Upload a valid document below, then bring the original to the B9 office (Room 101).</span></div></div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start;max-width:960px">
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:16px">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Priority proof · UT2</h2><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fef2f2;color:#b91c1c;box-shadow:inset 0 0 0 1px #fecaca">REJECTED</span></div>
+                  <div style="border-radius:6px;background:#f8fafc;box-shadow:inset 0 0 0 1px #e2e8f0;padding:12px 14px;display:flex;flex-direction:column;gap:4px">
+                    <span style="font-size:12px;color:#64748b">Reason from Đinh Văn Toàn, B9 building manager · 03 Sep 2026, 10:12</span>
+                    <span style="font-size:15px;line-height:22px;font-weight:500">Certificate expired — issued in 2023, must be issued this year.</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;border-radius:6px;border:1px solid #e2e8f0;padding:10px 12px;opacity:.6">
+                    <span style="border-radius:4px;background:#f1f5f9;padding:4px 6px;font-size:11px;font-weight:600;color:#475569">PDF</span>
+                    <span style="flex:1;min-width:0;font-size:13px"><span style="display:block;font-weight:500;text-decoration:line-through">xac-nhan-xa-kv3-2023.pdf</span><span style="display:block;font-size:12px;color:#64748b">Rejected file · uploaded 11 Aug 2026</span></span>
+                  </div>
+                  <div style="border-radius:8px;border:1.5px dashed #94a3b8;background:#f8fafc;padding:24px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+                    <span style="font-size:14px;font-weight:500">Drop a new document here</span>
+                    <span style="font-size:12px;color:#64748b">PDF, JPG or PNG</span>
+                    <button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Upload new proof</button>
+                  </div>
+                  <span style="font-size:12px;line-height:16px;color:#64748b;text-wrap:pretty">Uploading sets your proof status back to PENDING, and the building manager checks it again.</span>
+                </div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;display:flex;flex-direction:column;gap:10px">
+                  <span style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#94a3b8">After uploading</span>
+                  <div style="display:flex;align-items:center;gap:10px"><span style="border-radius:4px;background:#f1f5f9;padding:4px 6px;font-size:11px;font-weight:600;color:#475569">PDF</span><span style="flex:1;min-width:0;font-size:13px"><span style="display:block;font-weight:500">xac-nhan-xa-kv3-2026.pdf</span><span style="display:block;font-size:12px;color:#64748b">Uploaded 04 Sep 2026, 08:40 · waiting for the building manager</span></span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">PENDING</span></div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:10px;font-size:14px">
+                  <h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b;margin-bottom:4px">Your registration</h2>
+                  <div style="display:flex;justify-content:space-between;align-items:center"><span style="color:#64748b">Registration</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">CONFIRMED</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center"><span style="color:#64748b">Residence</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">PENDING_CHECK_IN</span></div>
+                  <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Bed</span><span style="font-weight:500">B9-302 · Bed 8</span></div>
+                </div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:14px;font-weight:600">If you can't provide valid proof</span>
+                  <span style="font-size:13px;line-height:18px;color:#475569;text-wrap:pretty">The Centre may cancel your registration. Questions: 024 3869 2942 (office hours).</span>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <h2 style="margin:0;font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#334155">Student · registration wizard <span style="font-weight:400;color:#94a3b8">— same 4 steps as the current portal</span></h2>
+    <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+
+      <div id="2c" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2c</span><span style="font-size:14px;font-weight:500;color:#334155">Step 1 — confirm details &amp; registration type</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="STUDENT" active="Registration" full-name="Nguyễn Thị Thu Trang" role-label="Student" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:20px">
+            <div>
+              <h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">Register for accommodation</h1>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">K71 first-time registration · semester 20261</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;max-width:960px">
+              <sc-for list="{{ steps1 }}" as="s" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:8px;flex:{{ s.flex }}"><span style="width:24px;height:24px;flex-shrink:0;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;background:{{ s.bg }};color:{{ s.fg }};box-shadow:inset 0 0 0 1px {{ s.bd }}">{{ s.n }}</span><span style="font-size:14px;font-weight:{{ s.lw }};color:{{ s.lc }};white-space:nowrap">{{ s.label }}</span><span style="flex:1;height:1px;background:{{ s.line }}"></span></div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:20px;align-items:start;max-width:960px">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:20px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Student information</h2><a href="#2b" style="font-size:13px;font-weight:500">Edit declaration</a></div>
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 20px;font-size:14px">
+                  <sc-for list="{{ confirmFacts }}" as="f" hint-placeholder-count="9">
+                    <div><div style="font-size:12px;color:#64748b">{{ f.k }}</div><div style="font-weight:500">{{ f.v }}</div></div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid #e2e8f0;padding-top:20px">
+                  <h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Registration type</h2>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div style="border-radius:8px;padding:12px 14px;box-shadow:inset 0 0 0 2px #0f172a;display:flex;gap:10px"><span style="width:14px;height:14px;margin-top:3px;border-radius:9999px;box-sizing:border-box;border:4px solid #0f172a"></span><span><span style="display:block;font-size:14px;font-weight:600">First-time registration</span><span style="display:block;font-size:12px;color:#64748b">Includes the one-off 300,000 VND equipment fee</span></span></div>
+                    <div style="border-radius:8px;padding:12px 14px;box-shadow:inset 0 0 0 1px #e2e8f0;display:flex;gap:10px;opacity:.55"><span style="width:14px;height:14px;margin-top:3px;border-radius:9999px;box-sizing:border-box;border:1.5px solid #94a3b8"></span><span><span style="display:block;font-size:14px;font-weight:600">Stay-on</span><span style="display:block;font-size:12px;color:#64748b">Only for students with an active residence</span></span></div>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;gap:8px;border-top:1px solid #e2e8f0;padding-top:20px"><button type="button" style="border-radius:6px;border:1px solid #cbd5e1;background:#fff;padding:8px 14px;font-size:14px;font-weight:500;color:#334155">Cancel</button><button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Continue</button></div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:10px;font-size:14px">
+                <h2 style="margin:0 0 4px;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Your registration</h2>
+                <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Window</span><span style="font-weight:500">UT2 · open</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Stay</span><span style="font-weight:500">03 Sep – 25 Feb</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Building</span><span style="color:#94a3b8">—</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Room</span><span style="color:#94a3b8">—</span></div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <div id="2d" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2d</span><span style="font-size:14px;font-weight:500;color:#334155">Step 2 — choose building (free beds per building)</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="STUDENT" active="Registration" full-name="Nguyễn Thị Thu Trang" role-label="Student" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:20px">
+            <div>
+              <h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">Register for accommodation</h1>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">K71 first-time registration · semester 20261</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;max-width:960px">
+              <sc-for list="{{ steps2 }}" as="s" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:8px;flex:{{ s.flex }}"><span style="width:24px;height:24px;flex-shrink:0;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;background:{{ s.bg }};color:{{ s.fg }};box-shadow:inset 0 0 0 1px {{ s.bd }}">{{ s.n }}</span><span style="font-size:14px;font-weight:{{ s.lw }};color:{{ s.lc }};white-space:nowrap">{{ s.label }}</span><span style="flex:1;height:1px;background:{{ s.line }}"></span></div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:20px;align-items:start;max-width:960px">
+              <div style="display:flex;flex-direction:column;gap:16px">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                  <sc-for list="{{ buildings }}" as="b" hint-placeholder-count="2">
+                    <div style="background:#fff;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:14px;box-shadow:inset 0 0 0 {{ b.bw }} {{ b.bd }}">
+                      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                        <div><div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border-radius:9999px;box-sizing:border-box;border:{{ b.radio }}"></span><span style="font-size:20px;font-weight:600;letter-spacing:-0.02em">{{ b.name }}</span></div><div style="margin-top:2px;font-size:13px;color:#64748b">{{ b.floors }}</div></div>
+                        <div style="text-align:right"><div style="font-size:24px;line-height:28px;font-weight:600;font-variant-numeric:tabular-nums">{{ b.forYou }}</div><div style="font-size:12px;color:#64748b">free beds for you</div></div>
+                      </div>
+                      <div style="display:flex;flex-direction:column;border-top:1px solid #f1f5f9">
+                        <sc-for list="{{ b.types }}" as="t" hint-placeholder-count="3">
+                          <div style="display:grid;grid-template-columns:minmax(0,1fr) 110px 70px;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:14px"><span>{{ t.name }}</span><span style="color:#64748b;text-align:right">{{ t.rent }}</span><span style="text-align:right;font-weight:500;font-variant-numeric:tabular-nums">{{ t.free }}</span></div>
+                        </sc-for>
+                      </div>
+                      <span style="font-size:12px;color:#64748b">{{ b.total }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <p style="margin:0;font-size:12px;line-height:16px;color:#64748b;text-wrap:pretty">Free beds for you = free beds in female and unlocked rooms. All rooms in B6 and B9 have air conditioning, a water heater and 1 private bathroom.</p>
+                <div style="display:flex;justify-content:flex-end;gap:8px"><button type="button" style="border-radius:6px;border:1px solid #cbd5e1;background:#fff;padding:8px 14px;font-size:14px;font-weight:500;color:#334155">Back</button><button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Continue</button></div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:10px;font-size:14px">
+                <h2 style="margin:0 0 4px;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Your registration</h2>
+                <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Type</span><span style="font-weight:500">First-time</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Stay</span><span style="font-weight:500">03 Sep – 25 Feb</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Building</span><span style="font-weight:500">B9</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Room</span><span style="color:#94a3b8">—</span></div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <div id="2e" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2e</span><span style="font-size:14px;font-weight:500;color:#334155">Step 3 — choose room · bed assigned automatically · floor preference as default filter</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="STUDENT" active="Registration" full-name="Nguyễn Thị Thu Trang" role-label="Student" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:18px">
+            <div>
+              <h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">Register for accommodation</h1>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">K71 first-time registration · semester 20261 · Building B9</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;max-width:960px">
+              <sc-for list="{{ steps3 }}" as="s" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:8px;flex:{{ s.flex }}"><span style="width:24px;height:24px;flex-shrink:0;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;background:{{ s.bg }};color:{{ s.fg }};box-shadow:inset 0 0 0 1px {{ s.bd }}">{{ s.n }}</span><span style="font-size:14px;font-weight:{{ s.lw }};color:{{ s.lc }};white-space:nowrap">{{ s.label }}</span><span style="flex:1;height:1px;background:{{ s.line }}"></span></div>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;max-width:960px;font-size:13px">
+              <span style="color:#64748b;font-weight:500">Room type</span>
+              <span style="border-radius:6px;background:#0f172a;color:#fff;padding:4px 10px;font-weight:500">All</span>
+              <span style="border-radius:6px;color:#334155;padding:4px 10px;font-weight:500;box-shadow:inset 0 0 0 1px #cbd5e1">6 students</span>
+              <span style="border-radius:6px;color:#334155;padding:4px 10px;font-weight:500;box-shadow:inset 0 0 0 1px #cbd5e1">8 students</span>
+              <span style="border-radius:6px;color:#334155;padding:4px 10px;font-weight:500;box-shadow:inset 0 0 0 1px #cbd5e1">10 students</span>
+              <span style="width:1px;height:20px;background:#e2e8f0;margin:0 4px"></span>
+              <span style="display:flex;align-items:center;gap:6px;border-radius:6px;background:#f1f5f9;color:#0f172a;padding:4px 8px 4px 10px;font-weight:500;box-shadow:inset 0 0 0 1px #cbd5e1">Floors 2–3 · female preference<span style="color:#64748b">×</span></span>
+              <span style="display:flex;align-items:center;gap:6px;border-radius:6px;background:#f1f5f9;color:#0f172a;padding:4px 8px 4px 10px;font-weight:500;box-shadow:inset 0 0 0 1px #cbd5e1">Show unavailable rooms<span style="color:#64748b">×</span></span>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start;max-width:960px">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden">
+                <div style="display:grid;grid-template-columns:72px 40px 88px 80px 84px minmax(0,1fr);gap:10px;padding:10px 16px;border-bottom:1px solid #e2e8f0;background:#f8fafc;font-size:12px;font-weight:500;color:#64748b"><span>Room</span><span>Floor</span><span>Type</span><span>Gender</span><span style="text-align:right">Free</span><span style="text-align:right">Rent / month</span></div>
+                <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="9">
+                  <div style="display:grid;grid-template-columns:72px 40px 88px 80px 84px minmax(0,1fr);gap:10px;padding:10px 16px;border-bottom:1px solid #f1f5f9;font-size:14px;align-items:center;background:{{ r.rowBg }};opacity:{{ r.op }};box-shadow:inset 3px 0 0 {{ r.mark }}">
+                    <span style="font-weight:600">{{ r.code }}</span>
+                    <span style="color:#475569">{{ r.floor }}</span>
+                    <span style="color:#475569">{{ r.type }}</span>
+                    <span><span style="display:inline-block;border-radius:9999px;padding:1px 7px;font-size:11px;line-height:16px;font-weight:500;background:#fff;color:#475569;box-shadow:inset 0 0 0 1px #cbd5e1">{{ r.gender }}</span></span>
+                    <span style="text-align:right;font-variant-numeric:tabular-nums;font-weight:500;color:{{ r.freeC }}">{{ r.free }}</span>
+                    <span style="text-align:right;font-variant-numeric:tabular-nums;color:#334155">{{ r.rent }}</span>
+                  </div>
+                </sc-for>
+                <div style="padding:10px 16px;font-size:12px;line-height:16px;color:#64748b;text-wrap:pretty">In B9, floors 2–3 are preferred for female students and floors 1 and 4 for male students, so floors 2–3 are shown first. This only sets the default filter — you can pick any female or unlocked room on any floor.</div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:14px">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:18px;font-weight:600;letter-spacing:-0.02em">B9-312</div><div style="font-size:13px;color:#64748b">Floor 3 · 8 students</div></div><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fff;color:#475569;box-shadow:inset 0 0 0 1px #cbd5e1">FEMALE</span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;font-size:14px">
+                  <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Monthly rent</span><span style="font-weight:600">730,000 VND</span></div>
+                  <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Water</span><span>40,000 VND</span></div>
+                  <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Free beds</span><span>3 of 8</span></div>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span style="border-radius:6px;background:#f1f5f9;padding:3px 8px;font-size:12px;color:#334155">Air conditioning</span>
+                  <span style="border-radius:6px;background:#f1f5f9;padding:3px 8px;font-size:12px;color:#334155">Water heater</span>
+                  <span style="border-radius:6px;background:#f1f5f9;padding:3px 8px;font-size:12px;color:#334155">1 private bathroom</span>
+                </div>
+                <div style="border-radius:6px;background:#f8fafc;box-shadow:inset 0 0 0 1px #e2e8f0;padding:10px 12px;font-size:13px;line-height:18px;color:#334155;text-wrap:pretty">You choose the room. A free bed in it is assigned automatically when you confirm, and shown on the payment screen.</div>
+                <div style="display:flex;justify-content:flex-end;gap:8px;border-top:1px solid #e2e8f0;padding-top:14px"><button type="button" style="border-radius:6px;border:1px solid #cbd5e1;background:#fff;padding:8px 14px;font-size:14px;font-weight:500;color:#334155">Back</button><button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Continue with B9-312</button></div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <div id="2f" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2f</span><span style="font-size:14px;font-weight:500;color:#334155">Step 4 — confirm with semester fee breakdown</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="STUDENT" active="Registration" full-name="Nguyễn Thị Thu Trang" role-label="Student" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:20px">
+            <div>
+              <h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">Register for accommodation</h1>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">K71 first-time registration · semester 20261</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;max-width:960px">
+              <sc-for list="{{ steps4 }}" as="s" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:8px;flex:{{ s.flex }}"><span style="width:24px;height:24px;flex-shrink:0;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;background:{{ s.bg }};color:{{ s.fg }};box-shadow:inset 0 0 0 1px {{ s.bd }}">{{ s.n }}</span><span style="font-size:14px;font-weight:{{ s.lw }};color:{{ s.lc }};white-space:nowrap">{{ s.label }}</span><span style="flex:1;height:1px;background:{{ s.line }}"></span></div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start;max-width:960px">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:12px;font-size:14px">
+                <h2 style="margin:0 0 4px;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Registration</h2>
+                <sc-for list="{{ confirmRows }}" as="f" hint-placeholder-count="7">
+                  <div style="display:flex;justify-content:space-between;gap:16px;padding-bottom:10px;border-bottom:1px solid #f1f5f9"><span style="color:#64748b">{{ f.k }}</span><span style="font-weight:500;text-align:right">{{ f.v }}</span></div>
+                </sc-for>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:14px">
+                <h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Semester fee</h2>
+                <div style="display:flex;flex-direction:column;font-size:14px">
+                  <sc-for list="{{ fee }}" as="l" hint-placeholder-count="3">
+                    <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9"><span><span style="display:block">{{ l.k }}</span><span style="display:block;font-size:12px;color:#64748b">{{ l.calc }}</span></span><span style="font-weight:500;font-variant-numeric:tabular-nums">{{ l.amt }}</span></div>
+                  </sc-for>
+                  <div style="display:flex;justify-content:space-between;padding:12px 0 0;font-size:16px;font-weight:600"><span>Total</span><span style="font-variant-numeric:tabular-nums">4,920,000 VND</span></div>
+                </div>
+                <p style="margin:0;font-size:12px;line-height:16px;color:#64748b;text-wrap:pretty">6 months: Sep 2026 – Feb 2027. Every month you stay in counts in full, even if you move in on its last day.</p>
+                <div style="border-radius:6px;background:#fffbeb;box-shadow:inset 0 0 0 1px #fde68a;padding:10px 12px;font-size:13px;line-height:18px;color:#92400e;text-wrap:pretty">After you confirm, the bed is held for <span style="font-weight:600">30 minutes</span>. Pay the exact amount within that time or the hold expires. Fees are not refunded once paid.</div>
+                <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px"><span style="width:16px;height:16px;flex-shrink:0;margin-top:2px;border-radius:4px;background:#0f172a;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center">✓</span><span>I understand that fees are non-refundable.</span></label>
+                <div style="display:flex;justify-content:flex-end;gap:8px"><button type="button" style="border-radius:6px;border:1px solid #cbd5e1;background:#fff;padding:8px 14px;font-size:14px;font-weight:500;color:#334155">Back</button><button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Confirm registration</button></div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <h2 style="margin:0;font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#334155">Student · hold, error states &amp; residence</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+
+      <div id="2g" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2g</span><span style="font-size:14px;font-weight:500;color:#334155">Hold — 30-minute countdown, simulated QR payment</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="STUDENT" active="Registration" full-name="Nguyễn Thị Thu Trang" role-label="Student" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:20px">
+            <div>
+              <div style="display:flex;align-items:center;gap:12px"><h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">Complete your payment</h1><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f5f3ff;color:#6d28d9;box-shadow:inset 0 0 0 1px #ddd6fe">HELD</span></div>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">Bed 3 in B9-312 was assigned and is held for you · Registration REG-20261-004812</p>
+            </div>
+            <div style="max-width:960px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px 24px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:24px;align-items:center">
+              <div style="font-size:44px;line-height:48px;font-weight:600;letter-spacing:-0.03em;font-variant-numeric:tabular-nums">27:41</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;justify-content:space-between;font-size:14px"><span style="font-weight:500">Time left to pay</span><span style="color:#64748b">Held at 08:03 · expires 08:33, 20 Aug 2026</span></div>
+                <div style="height:8px;border-radius:4px;background:#f1f5f9"><div style="height:8px;border-radius:4px;background:#0f172a;width:92%"></div></div>
+              </div>
+              <span style="font-size:12px;color:#64748b;max-width:160px;text-wrap:pretty">After 08:33 the bed is released and the invoice is voided.</span>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start;max-width:960px">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:16px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Scan to pay</h2><span style="border-radius:4px;background:#fffbeb;color:#92400e;padding:2px 6px;font-size:11px;font-weight:600;box-shadow:inset 0 0 0 1px #fde68a">SIMULATED</span></div>
+                <div style="display:flex;gap:20px;align-items:flex-start">
+                  <div style="padding:10px;border-radius:6px;border:1px solid #e2e8f0;background:#fff">
+                    <div style="display:grid;grid-template-columns:repeat(25,7px);grid-auto-rows:7px">
+                      <sc-for list="{{ qr }}" as="q" hint-placeholder-count="0"><span style="background:{{ q.c }}"></span></sc-for>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;min-width:0">
+                    <div><div style="font-size:12px;color:#64748b">Account name</div><div style="font-weight:500">Đại học Bách khoa Hà Nội</div></div>
+                    <div><div style="font-size:12px;color:#64748b">Amount</div><div style="font-weight:600;font-size:15px">4,920,000 VND</div></div>
+                    <div><div style="font-size:12px;color:#64748b">Transfer note</div><div style="font-weight:500;font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:12px">KTX20261 20260123 B9312</div></div>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid #e2e8f0;padding-top:16px"><span style="font-size:12px;line-height:16px;color:#64748b">Demo only — no money is moved.</span><button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Simulate payment</button></div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Invoice INV-20261-004812</h2><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f5f3ff;color:#6d28d9;box-shadow:inset 0 0 0 1px #ddd6fe">ISSUED</span></div>
+                <div style="display:flex;flex-direction:column;font-size:14px">
+                  <sc-for list="{{ fee }}" as="l" hint-placeholder-count="3">
+                    <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9"><span><span style="display:block">{{ l.k }}</span><span style="display:block;font-size:12px;color:#64748b">{{ l.calc }}</span></span><span style="font-weight:500;font-variant-numeric:tabular-nums">{{ l.amt }}</span></div>
+                  </sc-for>
+                  <div style="display:flex;justify-content:space-between;padding:12px 0 0;font-size:16px;font-weight:600"><span>Total</span><span style="font-variant-numeric:tabular-nums">4,920,000 VND</span></div>
+                </div>
+                <span style="font-size:12px;color:#64748b">Semester fee · due 20 Aug 2026, 08:33</span>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <div id="2h" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2h</span><span style="font-size:14px;font-weight:500;color:#334155">States — window not open (422), room just filled (409), hold expired, room full</span></div>
+        <div style="width:1280px;box-sizing:border-box;padding:32px;background:#f8fafc;border:1px solid #cbd5e1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start">
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#94a3b8">Window not open yet · UT3 student</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+              <div><div style="font-size:15px;font-weight:600">K71 first-time registration · 20261</div><div style="font-size:13px;color:#64748b">Your window (UT3) opens Fri 21 Aug 2026, 08:00</div></div>
+              <div style="font-size:26px;line-height:32px;font-weight:600;font-variant-numeric:tabular-nums">23:52:10</div>
+            </div>
+            <button type="button" disabled style="align-self:flex-start;border-radius:6px;border:0;background:#0f172a;opacity:.6;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Register · opens 21 Aug, 08:00</button>
+            <div role="alert" style="border-radius:6px;background:#fef2f2;padding:10px 12px;font-size:14px;line-height:20px;color:#b91c1c;display:flex;flex-direction:column;gap:2px">
+              <span style="font-weight:600">Your registration window hasn't opened</span>
+              <span>Shown if the page is opened early from a saved link. UT3 can hold beds from 21 Aug 2026, 08:00.</span>
+              <span style="font-size:12px;color:#991b1b;opacity:.8">422 · BR-01</span>
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#94a3b8">Room just filled · on Confirm registration</div>
+            <div role="alert" style="border-radius:6px;background:#fef2f2;padding:10px 12px;font-size:14px;line-height:20px;color:#b91c1c;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">This room just filled up</span><span>The last free bed in B9-312 was taken by another student a moment ago. Nothing was held or charged.</span><span style="font-size:12px;color:#991b1b;opacity:.8">409 · BR-04</span></div>
+            <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font-size:13px"><span style="font-weight:500">B9-312 · 8 students</span><span style="color:#b91c1c;font-weight:500">0 of 8 free</span></div><div style="height:6px;border-radius:3px;background:#94a3b8"></div></div>
+            <span style="font-size:12px;line-height:16px;color:#64748b;text-wrap:pretty">Only shown when no beds are left. If another bed in the room is still free, you're given that bed and go straight to payment.</span>
+            <div style="display:flex;gap:8px"><button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Back to rooms</button></div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#94a3b8">Hold expired</div><div style="display:flex;gap:6px"><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fff;color:#64748b;box-shadow:inset 0 0 0 1px #cbd5e1">EXPIRED</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fff;color:#64748b;box-shadow:inset 0 0 0 1px #cbd5e1">VOID</span></div></div>
+            <div style="display:flex;align-items:center;gap:16px"><span style="font-size:36px;line-height:40px;font-weight:600;color:#94a3b8;font-variant-numeric:tabular-nums">00:00</span><span style="font-size:14px;line-height:20px;color:#334155;text-wrap:pretty">Your hold on B9-312 · Bed 3 expired at 08:33. The bed was released and invoice INV-20261-004812 was voided.</span></div>
+            <div role="alert" style="border-radius:6px;background:#fef2f2;padding:10px 12px;font-size:14px;line-height:20px;color:#b91c1c;display:flex;flex-direction:column;gap:2px">
+              <span style="font-weight:600">Payment not accepted</span>
+              <span>A payment made after the hold expired is rejected. If money left your account, contact the centre on 024 3869 2942.</span>
+              <span style="font-size:12px;color:#991b1b;opacity:.8">409 · BR-05</span>
+            </div>
+            <button type="button" style="align-self:flex-start;border-radius:6px;border:0;background:#0f172a;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Start a new registration</button>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#94a3b8">Room full</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:18px;font-weight:600;letter-spacing:-0.02em">B9-309</div><div style="font-size:13px;color:#64748b">Floor 3 · 10 students · 550,000 VND / month</div></div><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fff;color:#475569;box-shadow:inset 0 0 0 1px #cbd5e1">FEMALE</span></div>
+            <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:#64748b">Free beds</span><span style="font-weight:500">0 of 10</span></div><div style="height:6px;border-radius:3px;background:#94a3b8"></div></div>
+            <div style="border-radius:6px;background:#f8fafc;box-shadow:inset 0 0 0 1px #e2e8f0;padding:10px 12px;font-size:14px;line-height:20px;color:#334155">This room is full. Similar rooms with free beds: <span style="font-weight:600">B9-203</span> (4 free) · <span style="font-weight:600">B9-302</span> (7 free)</div>
+            <button type="button" disabled style="align-self:flex-start;border-radius:6px;border:0;background:#0f172a;opacity:.6;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Continue</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="2i" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2i</span><span style="font-size:14px;font-weight:500;color:#334155">My residence — bed, stay period, history, roommates · 15 Sep</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="STUDENT" active="My residence" full-name="Nguyễn Thị Thu Trang" role-label="Student" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:20px">
+            <div>
+              <div style="display:flex;align-items:center;gap:12px"><h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">My residence</h1><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f0fdf4;color:#15803d;box-shadow:inset 0 0 0 1px #bbf7d0">ACTIVE</span></div>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">Checked in 03 Sep 2026 by Đinh Văn Toàn, B9 building manager</p>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start;max-width:960px">
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:18px">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
+                    <div><h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Your bed</h2><div style="margin-top:6px;font-size:22px;line-height:28px;font-weight:600;letter-spacing:-0.02em">B9 · Room B9-312 · Bed 3</div><div style="font-size:14px;color:#64748b">Floor 3 · 8 students · Air conditioning · Water heater · 1 bathroom</div></div>
+                    <span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fff;color:#475569;box-shadow:inset 0 0 0 1px #cbd5e1">FEMALE</span>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <div style="display:flex;justify-content:space-between;font-size:14px"><span style="font-weight:500">Stay period · 03 Sep 2026 – 25 Feb 2027</span><span style="color:#64748b">Day 13 of 176</span></div>
+                    <div style="height:8px;border-radius:4px;background:#f1f5f9"><div style="height:8px;border-radius:4px;background:#0f172a;width:7.4%"></div></div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;border-top:1px solid #e2e8f0;padding-top:16px;font-size:14px">
+                    <div><div style="font-size:12px;color:#64748b">Registration</div><div style="margin-top:2px"><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#0f172a;color:#fff">CHECKED_IN</span></div></div>
+                    <div><div style="font-size:12px;color:#64748b">Semester fee · 4,920,000 VND</div><div style="margin-top:2px"><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f0fdf4;color:#15803d;box-shadow:inset 0 0 0 1px #bbf7d0">PAID</span></div></div>
+                    <div><div style="font-size:12px;color:#64748b">Priority proof · UT2</div><div style="margin-top:2px"><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f0fdf4;color:#15803d;box-shadow:inset 0 0 0 1px #bbf7d0">VERIFIED</span></div></div>
+                  </div>
+                </div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:6px">
+                  <h2 style="margin:0 0 6px;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Residence history</h2>
+                  <div style="display:grid;grid-template-columns:minmax(0,1fr) 70px 130px 130px;gap:12px;padding:8px 0;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:500;color:#64748b"><span>Room</span><span>Bed</span><span>From</span><span>To</span></div>
+                  <div style="display:grid;grid-template-columns:minmax(0,1fr) 70px 130px 130px;gap:12px;padding:8px 0;font-size:14px"><span style="font-weight:500">B9 · B9-312</span><span>3</span><span>03 Sep 2026</span><span style="color:#64748b">Present</span></div>
+                </div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:4px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Roommates</h2><span style="font-size:12px;color:#64748b">7 of 8</span></div>
+                <sc-for list="{{ roommates }}" as="m" hint-placeholder-count="8">
+                  <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:7px 0;border-bottom:1px solid #f1f5f9;font-size:14px">
+                    <span style="min-width:0"><span style="display:block;font-weight:{{ m.fw }};color:{{ m.fg }}">{{ m.name }}</span><span style="display:block;font-size:12px;color:#94a3b8">{{ m.meta }}</span></span>
+                    <span style="font-size:12px;color:#94a3b8">Bed {{ m.bed }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MOBILE ================= -->
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <h2 style="margin:0;font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#334155">Student · mobile</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+
+      <div id="2j" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2j</span><span style="font-size:14px;font-weight:500;color:#334155">Rounds</span></div>
+        <div style="width:390px;min-height:844px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:24px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border-bottom:1px solid #e2e8f0"><div><div style="font-size:16px;font-weight:600;letter-spacing:-0.02em">DMS</div><div style="font-size:11px;color:#64748b">Registration</div></div><span style="border-radius:6px;border:1px solid #cbd5e1;padding:12px 14px;font-size:14px;line-height:18px;font-weight:500;color:#334155">Menu</span></div>
+          <div style="padding:20px 16px;display:flex;flex-direction:column;gap:16px">
+            <div><h1 style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.02em">Registration</h1><p style="margin:2px 0 0;font-size:13px;color:#64748b">Your priority group: UT2</p></div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:14px">
+              <div><div style="font-size:15px;font-weight:600;line-height:20px">K71 first-time registration · semester 20261</div><div style="margin-top:2px;font-size:12px;color:#64748b">B6, B9 · Stay 03 Sep 2026 – 25 Feb 2027</div></div>
+              <div style="border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0;padding:14px;display:flex;flex-direction:column;gap:6px;align-items:center">
+                <span style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Your window opens in</span>
+                <span style="font-size:34px;line-height:40px;font-weight:600;font-variant-numeric:tabular-nums">00:07:42</span>
+                <span style="font-size:12px;color:#64748b">Thu 20 Aug 2026, 08:00</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <sc-for list="{{ windows }}" as="w" hint-placeholder-count="3">
+                  <div style="display:flex;justify-content:space-between;align-items:center;border-radius:6px;padding:8px 10px;font-size:13px;background:{{ w.bg }};box-shadow:inset 0 0 0 1px {{ w.bd }}"><span style="color:{{ w.fg }}"><span style="font-weight:600">{{ w.g }}</span> · {{ w.short }}</span><span style="font-size:12px;font-weight:500;color:{{ w.nc }}">{{ w.note }}</span></div>
+                </sc-for>
+              </div>
+              <button type="button" disabled style="border-radius:6px;border:0;background:#0f172a;opacity:.6;padding:12px 14px;font-size:15px;font-weight:500;color:#fff">Register · opens 08:00</button>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;opacity:.75"><span><span style="display:block;font-size:14px;font-weight:600">Stay-on · 20261</span><span style="display:block;font-size:12px;color:#64748b">Current residents only</span></span><span style="font-size:13px;color:#64748b">Not eligible</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="2k" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2k</span><span style="font-size:14px;font-weight:500;color:#334155">Declaration</span></div>
+        <div style="width:390px;min-height:844px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:24px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border-bottom:1px solid #e2e8f0"><div><div style="font-size:16px;font-weight:600;letter-spacing:-0.02em">DMS</div><div style="font-size:11px;color:#64748b">My declaration</div></div><span style="border-radius:6px;border:1px solid #cbd5e1;padding:12px 14px;font-size:14px;line-height:18px;font-weight:500;color:#334155">Menu</span></div>
+          <div style="flex:1;padding:20px 16px;display:flex;flex-direction:column;gap:12px">
+            <h1 style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.02em">My declaration</h1>
+            <sc-for list="{{ declSections }}" as="sec" hint-placeholder-count="4">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:0 16px;min-height:52px;display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="min-width:0"><span style="display:block;font-size:14px;font-weight:600">{{ sec.title }}</span><span style="display:block;font-size:12px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sec.summary }}</span></span><span style="font-size:12px;font-weight:500;color:#15803d">Complete</span></div>
+            </sc-for>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px">
+              <span style="font-size:14px;font-weight:600">Priority group <span style="color:#b91c1c">*</span></span>
+              <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+                <div style="border-radius:8px;padding:12px;min-height:44px;box-sizing:border-box;display:flex;gap:10px;align-items:flex-start;box-shadow:inset 0 0 0 {{ g.bw }} {{ g.bd }}"><span style="width:16px;height:16px;flex-shrink:0;margin-top:2px;border-radius:9999px;box-sizing:border-box;border:{{ g.radio }}"></span><span style="min-width:0"><span style="display:block;font-size:14px;font-weight:600">{{ g.g }} <span style="font-weight:400;font-size:12px;color:#64748b">{{ g.opens }}</span></span><span style="display:block;font-size:12px;line-height:16px;color:#475569">{{ g.descShort }}</span></span></div>
+              </sc-for>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:600">Priority proof <span style="color:#b91c1c">*</span></span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">PENDING</span></div>
+              <div style="display:flex;align-items:center;gap:10px;border-radius:6px;border:1px solid #e2e8f0;padding:10px 12px"><span style="border-radius:4px;background:#f1f5f9;padding:4px 6px;font-size:11px;font-weight:600;color:#475569">PDF</span><span style="flex:1;min-width:0;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">xac-nhan-cu-tru-lung-cu.pdf</span></div>
+              <div style="display:flex;align-items:center;gap:12px"><div style="width:48px;height:64px;border-radius:4px;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#64748b">TT</div><span style="font-size:13px;color:#475569">Photo 3×4 uploaded</span></div>
+            </div>
+            <button type="button" style="margin-top:auto;border-radius:6px;border:0;background:#0f172a;padding:12px 14px;font-size:15px;font-weight:500;color:#fff">Save declaration</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="2l" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2l</span><span style="font-size:14px;font-weight:500;color:#334155">Step 3 · choose room</span></div>
+        <div style="width:390px;min-height:844px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:24px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border-bottom:1px solid #e2e8f0"><div><div style="font-size:16px;font-weight:600;letter-spacing:-0.02em">DMS</div><div style="font-size:11px;color:#64748b">Step 3 of 4 · Choose room</div></div><span style="border-radius:6px;border:1px solid #cbd5e1;padding:12px 14px;font-size:14px;line-height:18px;font-weight:500;color:#334155">Menu</span></div>
+          <div style="height:3px;background:#e2e8f0"><div style="height:3px;width:75%;background:#0f172a"></div></div>
+          <div style="flex:1;padding:16px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><h1 style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.02em">Rooms in B9</h1><span style="font-size:12px;color:#64748b">7 with free beds</span></div>
+            <div style="display:flex;gap:6px;overflow:hidden;font-size:13px">
+              <span style="flex-shrink:0;display:flex;align-items:center;gap:6px;border-radius:6px;background:#f1f5f9;padding:8px 10px;font-weight:500;box-shadow:inset 0 0 0 1px #cbd5e1">Floors 2–3<span style="color:#64748b">×</span></span>
+              <span style="flex-shrink:0;border-radius:6px;padding:8px 10px;font-weight:500;color:#334155;box-shadow:inset 0 0 0 1px #cbd5e1">All types ▾</span>
+              <span style="flex-shrink:0;border-radius:6px;padding:8px 10px;font-weight:500;color:#334155;box-shadow:inset 0 0 0 1px #cbd5e1">Unavailable</span>
+            </div>
+            <sc-for list="{{ roomsMobile }}" as="r" hint-placeholder-count="6">
+              <div style="background:#fff;border-radius:8px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:inset 0 0 0 {{ r.bw }} {{ r.bd }};opacity:{{ r.op }}">
+                <span style="min-width:0"><span style="display:flex;align-items:center;gap:8px"><span style="font-size:15px;font-weight:600">{{ r.code }}</span><span style="border-radius:9999px;padding:0 6px;font-size:11px;line-height:16px;font-weight:500;color:#475569;box-shadow:inset 0 0 0 1px #cbd5e1">{{ r.gender }}</span></span><span style="display:block;font-size:12px;color:#64748b">Floor {{ r.floor }} · {{ r.type }} · {{ r.rent }}</span></span>
+                <span style="text-align:right;flex-shrink:0"><span style="display:block;font-size:15px;font-weight:600;color:{{ r.freeC }}">{{ r.freeShort }}</span><span style="display:block;font-size:11px;color:#94a3b8">{{ r.freeLabel }}</span></span>
+              </div>
+            </sc-for>
+            <div style="margin-top:auto;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;font-size:14px"><span style="font-weight:600">B9-312 · 3 free beds</span><span style="color:#64748b">730,000 / mo</span></div>
+              <span style="font-size:12px;line-height:16px;color:#64748b">A free bed is assigned automatically when you confirm.</span>
+              <button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:12px 14px;font-size:15px;font-weight:500;color:#fff">Continue with B9-312</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="2m" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2m</span><span style="font-size:14px;font-weight:500;color:#334155">Step 4 · confirm</span></div>
+        <div style="width:390px;min-height:844px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:24px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border-bottom:1px solid #e2e8f0"><div><div style="font-size:16px;font-weight:600;letter-spacing:-0.02em">DMS</div><div style="font-size:11px;color:#64748b">Step 4 of 4 · Confirm</div></div><span style="border-radius:6px;border:1px solid #cbd5e1;padding:12px 14px;font-size:14px;line-height:18px;font-weight:500;color:#334155">Menu</span></div>
+          <div style="height:3px;background:#0f172a"></div>
+          <div style="flex:1;padding:16px;display:flex;flex-direction:column;gap:12px">
+            <h1 style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.02em">Confirm registration</h1>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;font-size:14px">
+              <div style="font-size:17px;font-weight:600;letter-spacing:-0.02em">B9-312</div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Bed</span><span style="font-weight:500">Assigned when you confirm</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Type</span><span style="font-weight:500">First-time</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Room</span><span style="font-weight:500">8 students · Female</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Stay</span><span style="font-weight:500">03 Sep 2026 – 25 Feb 2027</span></div>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:6px 16px 14px;display:flex;flex-direction:column;font-size:14px">
+              <sc-for list="{{ fee }}" as="l" hint-placeholder-count="3">
+                <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9"><span><span style="display:block">{{ l.k }}</span><span style="display:block;font-size:12px;color:#64748b">{{ l.calc }}</span></span><span style="font-weight:500;font-variant-numeric:tabular-nums">{{ l.amt }}</span></div>
+              </sc-for>
+              <div style="display:flex;justify-content:space-between;padding-top:12px;font-size:16px;font-weight:600"><span>Total</span><span>4,920,000 VND</span></div>
+            </div>
+            <div style="border-radius:6px;background:#fffbeb;box-shadow:inset 0 0 0 1px #fde68a;padding:10px 12px;font-size:13px;line-height:18px;color:#92400e">Bed held for 30 minutes after you confirm. Pay within that time. Fees are non-refundable.</div>
+            <label style="display:flex;gap:10px;align-items:center;min-height:44px;font-size:14px"><span style="width:20px;height:20px;flex-shrink:0;border-radius:4px;background:#0f172a;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center">✓</span><span>I understand fees are non-refundable.</span></label>
+            <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px"><button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:12px 14px;font-size:15px;font-weight:500;color:#fff">Confirm registration</button><button type="button" style="border-radius:6px;border:1px solid #cbd5e1;background:#fff;padding:12px 14px;font-size:15px;font-weight:500;color:#334155">Back</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="2n" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2n</span><span style="font-size:14px;font-weight:500;color:#334155">Hold &amp; pay</span></div>
+        <div style="width:390px;min-height:844px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:24px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border-bottom:1px solid #e2e8f0"><div><div style="font-size:16px;font-weight:600;letter-spacing:-0.02em">DMS</div><div style="font-size:11px;color:#64748b">Payment</div></div><span style="border-radius:6px;border:1px solid #cbd5e1;padding:12px 14px;font-size:14px;line-height:18px;font-weight:500;color:#334155">Menu</span></div>
+          <div style="position:sticky;top:0;background:#0f172a;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;opacity:.8">Bed held until 08:33</span><span style="font-size:24px;line-height:28px;font-weight:600;font-variant-numeric:tabular-nums">27:41</span></div>
+          <div style="flex:1;padding:16px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:10px"><h1 style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.02em">Complete payment</h1><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f5f3ff;color:#6d28d9;box-shadow:inset 0 0 0 1px #ddd6fe">HELD</span></div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px">
+              <div style="display:flex;justify-content:space-between;align-self:stretch;align-items:center"><span style="font-size:13px;font-weight:600">B9-312 · Bed 3</span><span style="border-radius:4px;background:#fffbeb;color:#92400e;padding:2px 6px;font-size:11px;font-weight:600;box-shadow:inset 0 0 0 1px #fde68a">SIMULATED</span></div>
+              <div style="display:grid;grid-template-columns:repeat(25,7px);grid-auto-rows:7px;padding:8px;border:1px solid #e2e8f0;border-radius:6px">
+                <sc-for list="{{ qr }}" as="q" hint-placeholder-count="0"><span style="background:{{ q.c }}"></span></sc-for>
+              </div>
+              <div style="text-align:center"><div style="font-size:22px;font-weight:600;letter-spacing:-0.02em">4,920,000 VND</div><div style="font-size:12px;color:#64748b;font-family:ui-monospace, SFMono-Regular, Menlo, monospace">KTX20261 20260123 B9312</div></div>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:6px 16px 12px;display:flex;flex-direction:column;font-size:14px">
+              <sc-for list="{{ fee }}" as="l" hint-placeholder-count="3">
+                <div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #f1f5f9"><span><span style="display:block">{{ l.k }}</span><span style="display:block;font-size:12px;color:#64748b">{{ l.calc }}</span></span><span style="font-weight:500;font-variant-numeric:tabular-nums">{{ l.amt }}</span></div>
+              </sc-for>
+            </div>
+            <button type="button" style="margin-top:auto;border-radius:6px;border:0;background:#0f172a;padding:12px 14px;font-size:15px;font-weight:500;color:#fff">Simulate payment</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="2o" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2o</span><span style="font-size:14px;font-weight:500;color:#334155">My residence</span></div>
+        <div style="width:390px;min-height:844px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:24px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border-bottom:1px solid #e2e8f0"><div><div style="font-size:16px;font-weight:600;letter-spacing:-0.02em">DMS</div><div style="font-size:11px;color:#64748b">My residence</div></div><span style="border-radius:6px;border:1px solid #cbd5e1;padding:12px 14px;font-size:14px;line-height:18px;font-weight:500;color:#334155">Menu</span></div>
+          <div style="padding:20px 16px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:10px"><h1 style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.02em">My residence</h1><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f0fdf4;color:#15803d;box-shadow:inset 0 0 0 1px #bbf7d0">ACTIVE</span></div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:12px">
+              <div><div style="font-size:19px;font-weight:600;letter-spacing:-0.02em">B9-312 · Bed 3</div><div style="font-size:12px;color:#64748b">Floor 3 · 8 students · Female room</div></div>
+              <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>03 Sep 2026 – 25 Feb 2027</span><span style="color:#64748b">Day 13 / 176</span></div><div style="height:6px;border-radius:3px;background:#f1f5f9"><div style="height:6px;border-radius:3px;background:#0f172a;width:7.4%"></div></div></div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px"><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#0f172a;color:#fff">CHECKED_IN</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f0fdf4;color:#15803d;box-shadow:inset 0 0 0 1px #bbf7d0">PAID</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f0fdf4;color:#15803d;box-shadow:inset 0 0 0 1px #bbf7d0">VERIFIED</span></div>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;font-size:14px">
+              <span style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">History</span>
+              <div style="display:flex;justify-content:space-between"><span style="font-weight:500">B9-312 · Bed 3</span><span style="color:#64748b">03 Sep 2026 – now</span></div>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;font-size:14px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Roommates</span><span style="font-size:12px;color:#64748b">7 of 8</span></div>
+              <sc-for list="{{ roommates }}" as="m" hint-placeholder-count="8">
+                <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9"><span style="font-weight:{{ m.fw }};color:{{ m.fg }}">{{ m.name }}</span><span style="font-size:12px;color:#94a3b8">Bed {{ m.bed }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= BUILDING MANAGER ================= -->
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <h2 style="margin:0;font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#334155">Building manager · check-in</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+
+      <div id="2p" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2p</span><span style="font-size:14px;font-weight:500;color:#334155">Check-in — UT2 proof pending, check-in disabled until verified</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="BUILDING_MANAGER" active="Check-in" full-name="Đinh Văn Toàn" role-label="Building manager · B9" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:20px">
+            <div>
+              <h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">Check-in</h1>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">B9 · Thu 03 Sep 2026 · 186 paid registrations waiting to check in</p>
+            </div>
+            <div style="display:grid;grid-template-columns:320px minmax(0,1fr);gap:20px;align-items:start">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden">
+                <div style="padding:12px;border-bottom:1px solid #e2e8f0"><div style="border-radius:6px;border:1px solid #0f172a;padding:7px 12px;font-size:14px">20260123</div></div>
+                <sc-for list="{{ checkinQueue }}" as="q" hint-placeholder-count="6">
+                  <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:10px 14px;border-bottom:1px solid #f1f5f9;background:{{ q.bg }}">
+                    <span style="min-width:0"><span style="display:block;font-size:14px;font-weight:500;color:{{ q.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ q.name }}</span><span style="display:block;font-size:12px;color:{{ q.sub }}">{{ q.code }} · {{ q.bed }} · {{ q.g }}</span></span>
+                    <span style="border-radius:9999px;padding:1px 7px;font-size:11px;line-height:16px;font-weight:500;background:{{ q.badge.bg }};color:{{ q.badge.fg }};box-shadow:inset 0 0 0 1px {{ q.badge.bd }}">{{ q.badge.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:grid;grid-template-columns:96px minmax(0,1fr);gap:20px">
+                  <div style="width:96px;height:128px;border-radius:4px;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;color:#64748b">TT</div>
+                  <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                      <div><div style="font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.02em">Nguyễn Thị Thu Trang</div><div style="font-size:14px;color:#64748b">20260123 · Female · B9-312 · Bed 3</div></div>
+                      <div style="display:flex;flex-wrap:wrap;gap:6px"><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">CONFIRMED</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">PENDING_CHECK_IN</span></div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px;font-size:14px">
+                      <sc-for list="{{ managerFacts }}" as="f" hint-placeholder-count="9">
+                        <div style="min-width:0"><div style="font-size:12px;color:#64748b">{{ f.k }}</div><div style="font-weight:500;text-wrap:pretty">{{ f.v }}</div></div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:14px">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Priority proof · UT2</h2><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">PENDING</span></div>
+                  <div style="display:flex;align-items:center;gap:12px;border-radius:6px;border:1px solid #e2e8f0;padding:10px 12px">
+                    <span style="border-radius:4px;background:#f1f5f9;padding:4px 6px;font-size:11px;font-weight:600;color:#475569">PDF</span>
+                    <span style="flex:1;min-width:0;font-size:14px"><span style="display:block;font-weight:500">xac-nhan-cu-tru-lung-cu.pdf</span><span style="display:block;font-size:12px;color:#64748b">Declared: permanent residence in a region III commune (Lũng Cú) · uploaded 12 Aug 2026</span></span>
+                    <span style="border-radius:6px;border:1px solid #cbd5e1;padding:4px 10px;font-size:13px;font-weight:500;color:#334155">Open file</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font-size:13px;color:#475569">Compare with the original document the student brought.</span><div style="display:flex;gap:8px"><button type="button" style="border-radius:6px;border:1px solid #cbd5e1;background:#fff;padding:8px 14px;font-size:14px;font-weight:500;color:#b91c1c">Reject proof</button><button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Verify proof</button></div></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px 20px">
+                  <span style="font-size:14px;color:#475569">UT2 students can't be checked in until their proof is <span style="font-weight:600;color:#0f172a">VERIFIED</span>.</span>
+                  <button type="button" disabled style="border-radius:6px;border:0;background:#0f172a;opacity:.6;padding:8px 18px;font-size:14px;font-weight:500;color:#fff">Check in</button>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <div id="2q" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2q</span><span style="font-size:14px;font-weight:500;color:#334155">Check-in states — verified, rejected (422), checked in, other building (404)</span></div>
+        <div style="width:1280px;box-sizing:border-box;padding:32px;background:#f8fafc;border:1px solid #cbd5e1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start">
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px 24px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#94a3b8">Proof verified</div><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f0fdf4;color:#15803d;box-shadow:inset 0 0 0 1px #bbf7d0">VERIFIED</span></div>
+            <span style="font-size:14px;color:#334155">Verified by Đinh Văn Toàn · 03 Sep 2026, 09:41</span>
+            <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e2e8f0;padding-top:12px"><span style="font-size:14px;color:#475569">Ready to check in to B9-312 · Bed 3</span><button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:8px 18px;font-size:14px;font-weight:500;color:#fff">Check in</button></div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px 24px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#94a3b8">Proof rejected · Đỗ Hải Yến</div><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fef2f2;color:#b91c1c;box-shadow:inset 0 0 0 1px #fecaca">REJECTED</span></div>
+            <label style="display:block;font-size:14px"><span style="font-weight:500;color:#334155">Reason</span><div style="margin-top:4px;border-radius:6px;border:1px solid #cbd5e1;padding:8px 12px">Certificate expired — issued in 2023, must be issued this year</div></label>
+            <div role="alert" style="border-radius:6px;background:#fef2f2;padding:10px 12px;font-size:14px;line-height:20px;color:#b91c1c;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Can't check in</span><span>UT2 priority proof must be verified before check-in.</span><span style="font-size:12px;color:#991b1b;opacity:.8">422 · BR-15</span></div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px 24px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#94a3b8">After check-in</div><div style="display:flex;gap:6px"><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#0f172a;color:#fff">CHECKED_IN</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#f0fdf4;color:#15803d;box-shadow:inset 0 0 0 1px #bbf7d0">ACTIVE</span></div></div>
+            <div style="border-radius:6px;background:#f0fdf4;box-shadow:inset 0 0 0 1px #bbf7d0;padding:10px 12px;font-size:14px;line-height:20px;color:#166534">Nguyễn Thị Thu Trang checked in to B9-312 · Bed 3 at 09:43. Residence history starts 03 Sep 2026.</div>
+            <span style="font-size:13px;color:#64748b">Search field is cleared for the next student.</span>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px 24px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#94a3b8">Student in another building</div>
+            <div style="border-radius:6px;border:1px solid #cbd5e1;padding:7px 12px;font-size:14px">20260488</div>
+            <div style="padding:16px 0 4px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center"><span style="font-size:15px;font-weight:600">No student found in B9</span><span style="font-size:13px;color:#64748b">You can only check in students registered for your buildings.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN ================= -->
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <h2 style="margin:0;font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#334155">Centre administrator · round setup <span style="font-weight:400;color:#94a3b8">&amp; status reference</span></h2>
+    <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+
+      <div id="2r" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2r</span><span style="font-size:14px;font-weight:500;color:#334155">Round setup — type, stay, hold, buildings, one opening time per group</span></div>
+        <div style="width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="ADMIN" active="Registration rounds" full-name="Trần Quang Huy" role-label="Centre administrator" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:20px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;max-width:960px">
+              <div>
+                <h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">New registration round</h1>
+                <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">Registration rounds · Semester 20261</p>
+              </div>
+              <div style="display:flex;gap:8px"><button type="button" style="border-radius:6px;border:1px solid #cbd5e1;background:#fff;padding:8px 14px;font-size:14px;font-weight:500;color:#334155">Cancel</button><button type="button" style="border-radius:6px;border:0;background:#0f172a;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Save round</button></div>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start;max-width:960px">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:22px">
+                <div style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px">
+                  <label style="display:block;font-size:14px"><span style="font-weight:500;color:#334155">Name</span><div style="margin-top:4px;border-radius:6px;border:1px solid #cbd5e1;padding:8px 12px">K71 first-time registration · semester 20261</div></label>
+                  <label style="display:block;font-size:14px"><span style="font-weight:500;color:#334155">Term code</span><div style="margin-top:4px;border-radius:6px;border:1px solid #cbd5e1;padding:8px 12px">20261</div></label>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px;font-size:14px">
+                  <span style="font-weight:500;color:#334155">Type</span>
+                  <div style="display:inline-flex;align-self:flex-start;border-radius:6px;box-shadow:inset 0 0 0 1px #cbd5e1;padding:3px;gap:2px">
+                    <span style="border-radius:4px;background:#0f172a;color:#fff;padding:5px 12px;font-weight:500">FIRST_TIME</span>
+                    <span style="border-radius:4px;color:#334155;padding:5px 12px;font-weight:500">STAY_ON</span>
+                    <span style="border-radius:4px;color:#334155;padding:5px 12px;font-weight:500">SUMMER</span>
+                  </div>
+                  <span style="font-size:12px;color:#64748b">First-time rounds add the 300,000 VND equipment fee.</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;border-top:1px solid #e2e8f0;padding-top:20px">
+                  <label style="display:block;font-size:14px"><span style="font-weight:500;color:#334155">Opens</span><div style="margin-top:4px;border-radius:6px;border:1px solid #cbd5e1;padding:8px 10px;font-size:13px">19 Aug 2026, 08:00</div></label>
+                  <label style="display:block;font-size:14px"><span style="font-weight:500;color:#334155">Closes</span><div style="margin-top:4px;border-radius:6px;border:1px solid #cbd5e1;padding:8px 10px;font-size:13px">31 Aug 2026, 17:00</div></label>
+                  <label style="display:block;font-size:14px"><span style="font-weight:500;color:#334155">Stay from</span><div style="margin-top:4px;border-radius:6px;border:1px solid #cbd5e1;padding:8px 10px;font-size:13px">03 Sep 2026</div></label>
+                  <label style="display:block;font-size:14px"><span style="font-weight:500;color:#334155">Stay until</span><div style="margin-top:4px;border-radius:6px;border:1px solid #cbd5e1;padding:8px 10px;font-size:13px">25 Feb 2027</div></label>
+                </div>
+                <div style="display:grid;grid-template-columns:140px minmax(0,1fr);gap:16px;align-items:end">
+                  <label style="display:block;font-size:14px"><span style="font-weight:500;color:#334155">Hold (minutes)</span><div style="margin-top:4px;border-radius:6px;border:1px solid #cbd5e1;padding:8px 12px">30</div></label>
+                  <span style="font-size:12px;line-height:16px;color:#64748b;padding-bottom:10px">Unpaid holds expire after this time. Default from settings: 30.</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:12px;border-top:1px solid #e2e8f0;padding-top:20px">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Opening time per priority group</h2><span style="font-size:12px;color:#64748b">Must be between Opens and Closes</span></div>
+                  <sc-for list="{{ adminWindows }}" as="w" hint-placeholder-count="3">
+                    <div style="display:grid;grid-template-columns:56px minmax(0,1fr) 190px;gap:12px;align-items:center">
+                      <span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:600;background:#fff;color:#334155;box-shadow:inset 0 0 0 1px #cbd5e1;text-align:center">{{ w.g }}</span>
+                      <span style="font-size:13px;line-height:18px;color:#475569;text-wrap:pretty">{{ w.desc }}</span>
+                      <div style="border-radius:6px;border:1px solid #cbd5e1;padding:8px 10px;font-size:13px">{{ w.at }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid #e2e8f0;padding-top:20px">
+                  <h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Buildings offered</h2>
+                  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+                    <sc-for list="{{ adminBuildings }}" as="b" hint-placeholder-count="7">
+                      <div style="display:flex;align-items:center;gap:8px;border-radius:6px;padding:8px 10px;box-shadow:inset 0 0 0 {{ b.bw }} {{ b.bd }}"><span style="width:16px;height:16px;flex-shrink:0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:{{ b.cb }};box-shadow:inset 0 0 0 1px {{ b.cbd }}">{{ b.check }}</span><span style="min-width:0"><span style="display:block;font-size:14px;font-weight:600">{{ b.name }}</span><span style="display:block;font-size:11px;color:#64748b">{{ b.free }}</span></span></div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:14px">
+                  <h2 style="margin:0;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Timeline</h2>
+                  <div style="position:relative;height:40px">
+                    <div style="position:absolute;left:0;right:0;top:12px;height:4px;border-radius:2px;background:#e2e8f0"></div>
+                    <div style="position:absolute;left:0;width:100%;top:12px;height:4px;border-radius:2px;background:linear-gradient(90deg,#0f172a 0%,#0f172a 8.3%,#475569 8.3%,#475569 16.7%,#94a3b8 16.7%)"></div>
+                    <span style="position:absolute;left:0;top:6px;width:4px;height:16px;border-radius:2px;background:#0f172a"></span>
+                    <span style="position:absolute;left:8.3%;top:6px;width:4px;height:16px;border-radius:2px;background:#475569"></span>
+                    <span style="position:absolute;left:16.7%;top:6px;width:4px;height:16px;border-radius:2px;background:#94a3b8"></span>
+                    <span style="position:absolute;right:0;top:6px;width:4px;height:16px;border-radius:2px;background:#0f172a"></span>
+                    <span style="position:absolute;left:0;top:26px;font-size:11px;font-weight:600">UT1</span>
+                    <span style="position:absolute;left:8.3%;top:26px;font-size:11px;font-weight:600;margin-left:4px">2</span>
+                    <span style="position:absolute;left:16.7%;top:26px;font-size:11px;font-weight:600;margin-left:4px">3</span>
+                    <span style="position:absolute;right:0;top:26px;font-size:11px;font-weight:600">Close</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:12px;color:#64748b"><span>19 Aug</span><span>31 Aug</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px solid #f1f5f9;padding-top:10px"><span style="color:#64748b">Billed months</span><span style="font-weight:600">6 · Sep 2026 – Feb 2027</span></div>
+                </div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:4px">
+                  <h2 style="margin:0 0 8px;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.025em;color:#64748b">Semester fee preview</h2>
+                  <sc-for list="{{ feePreview }}" as="p" hint-placeholder-count="3">
+                    <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:14px"><span><span style="display:block">{{ p.name }}</span><span style="display:block;font-size:12px;color:#64748b">{{ p.calc }}</span></span><span style="font-weight:600;font-variant-numeric:tabular-nums">{{ p.total }}</span></div>
+                  </sc-for>
+                  <span style="margin-top:6px;font-size:12px;line-height:16px;color:#64748b">B6 and B9 · official rents. Water 40,000 / month · equipment 300,000 once.</span>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <div id="2u" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2u</span><span style="font-size:14px;font-weight:500;color:#334155">Rejected proof — cancel a registration whose proof stays rejected</span></div>
+        <div style="position:relative;width:1280px;min-height:820px;display:flex;background:#f8fafc;border:1px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,.06)">
+          <dc-import name="Sidebar" role="ADMIN" active="Registration rounds" full-name="Trần Quang Huy" role-label="Centre administrator" hint-size="256px,820px"></dc-import>
+          <main style="flex:1;min-width:0;padding:24px 32px;display:flex;flex-direction:column;gap:20px">
+            <div>
+              <h1 style="margin:0;font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.025em">Rejected priority proof</h1>
+              <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#64748b">K71 first-time registration · 20261 · 15 Sep 2026</p>
+            </div>
+            <div style="max-width:960px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:minmax(0,1.2fr) 100px 48px 108px minmax(0,1.6fr) 170px;gap:12px;padding:10px 20px;border-bottom:1px solid #e2e8f0;background:#f8fafc;font-size:12px;font-weight:500;color:#64748b"><span>Student</span><span>Bed</span><span>Group</span><span>Proof</span><span>Latest decision</span><span style="text-align:right">Action</span></div>
+              <sc-for list="{{ rejectedRows }}" as="r" hint-placeholder-count="3">
+                <div style="display:grid;grid-template-columns:minmax(0,1.2fr) 100px 48px 108px minmax(0,1.6fr) 170px;gap:12px;padding:12px 20px;border-bottom:1px solid #f1f5f9;font-size:14px;align-items:center;background:{{ r.bg }}">
+                  <span style="min-width:0"><span style="display:block;font-weight:500">{{ r.name }}</span><span style="display:block;font-size:12px;color:#94a3b8">{{ r.code }}</span></span>
+                  <span style="color:#475569">{{ r.bed }}</span>
+                  <span style="color:#475569">{{ r.g }}</span>
+                  <span><span style="display:inline-block;border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:{{ r.badge.bg }};color:{{ r.badge.fg }};box-shadow:inset 0 0 0 1px {{ r.badge.bd }}">{{ r.badge.label }}</span></span>
+                  <span style="min-width:0"><span style="display:block;font-size:13px;line-height:18px;text-wrap:pretty">{{ r.reason }}</span><span style="display:block;font-size:12px;color:#64748b">{{ r.meta }}</span></span>
+                  <span style="display:flex;justify-content:flex-end"><sc-if value="{{ r.canCancel }}" hint-placeholder-val="{{ true }}"><span style="border-radius:6px;padding:5px 10px;font-size:13px;font-weight:500;color:#b91c1c;box-shadow:inset 0 0 0 1px #fecaca;background:#fff">Cancel registration</span></sc-if><sc-if value="{{ r.waiting }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#64748b">Waiting for manager</span></sc-if></span>
+                </div>
+              </sc-for>
+              <div style="padding:10px 20px;font-size:12px;line-height:16px;color:#64748b;text-wrap:pretty">Cancelling is possible only while proof is REJECTED. If the student uploads new proof, it goes back to PENDING for the building manager.</div>
+            </div>
+          </main>
+          <div style="position:absolute;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center">
+            <div style="width:460px;background:#fff;border-radius:8px;box-shadow:0 10px 30px rgba(15,23,42,.25);padding:24px;display:flex;flex-direction:column;gap:16px">
+              <div><div style="font-size:18px;line-height:26px;font-weight:600;letter-spacing:-0.02em">Cancel this registration?</div><div style="font-size:14px;color:#64748b">Đỗ Hải Yến · REG-20261-005137 · B9-302 · Bed 8</div></div>
+              <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:20px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><span>Registration</span><span style="display:flex;align-items:center;gap:6px"><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">CONFIRMED</span><span style="color:#94a3b8">→</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fff;color:#64748b;box-shadow:inset 0 0 0 1px #cbd5e1">CANCELLED</span></span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center"><span>Residence</span><span style="display:flex;align-items:center;gap:6px"><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe">PENDING_CHECK_IN</span><span style="color:#94a3b8">→</span><span style="border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:#fff;color:#64748b;box-shadow:inset 0 0 0 1px #cbd5e1">ENDED</span></span></div>
+                <div style="display:flex;justify-content:space-between"><span>Bed 8 in B9-302</span><span style="font-weight:500">Freed</span></div>
+                <div style="display:flex;justify-content:space-between"><span>Semester fee · 3,840,000</span><span style="font-weight:500">Stays PAID</span></div>
+              </div>
+              <label style="display:block;font-size:14px"><span style="font-weight:500;color:#334155">Reason</span><span style="color:#b91c1c"> *</span><div style="margin-top:4px;border-radius:6px;border:1px solid #0f172a;padding:8px 12px;min-height:60px;box-sizing:border-box;line-height:20px">Proof rejected on 03 Sep. No valid proof provided after 12 days.</div><span style="display:block;margin-top:4px;font-size:12px;color:#64748b">The student is notified with this reason. It's saved in the audit log.</span></label>
+              <div style="display:flex;justify-content:flex-end;gap:8px"><button type="button" style="border-radius:6px;border:1px solid #cbd5e1;background:#fff;padding:8px 14px;font-size:14px;font-weight:500;color:#334155">Keep registration</button><button type="button" style="border-radius:6px;border:0;background:#b91c1c;padding:8px 14px;font-size:14px;font-weight:500;color:#fff">Cancel registration</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="2s" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="border-radius:4px;background:#0f172a;color:#fff;font-size:12px;font-weight:600;padding:2px 7px">2s</span><span style="font-size:14px;font-weight:500;color:#334155">Status badges — enums from the updated CLAUDE.md</span></div>
+        <div style="width:760px;box-sizing:border-box;padding:28px;background:#fff;border:1px solid #cbd5e1;display:flex;flex-direction:column;gap:18px">
+          <sc-for list="{{ badgeGroups }}" as="g" hint-placeholder-count="8">
+            <div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:16px;align-items:start;padding-bottom:16px;border-bottom:1px solid #f1f5f9">
+              <span style="font-size:13px;font-weight:500;color:#475569;font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">{{ g.name }}</span>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ g.items }}" as="b" hint-placeholder-count="5"><span style="display:inline-block;border-radius:9999px;padding:2px 8px;font-size:12px;line-height:16px;font-weight:500;background:{{ b.bg }};color:{{ b.fg }};box-shadow:inset 0 0 0 1px {{ b.bd }}">{{ b.label }}</span></sc-for>
+              </div>
+            </div>
+          </sc-for>
+          <p style="margin:0;font-size:12px;line-height:16px;color:#64748b;text-wrap:pretty">Same tones as before: violet = waiting on the student (HELD, ISSUED) · blue = waiting on staff (CONFIRMED, PENDING_CHECK_IN, proof PENDING) · green = done · red = problem · outline = ended or not applicable · dark = final (CHECKED_IN). Attributes (type, group, gender) use a neutral outline.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  build() {
+    if (this._d) return this._d;
+    const vnd = n => n.toLocaleString('en-US');
+    const T = { slate: ['#f1f5f9', '#334155', '#e2e8f0'], blue: ['#eff6ff', '#1d4ed8', '#bfdbfe'], green: ['#f0fdf4', '#15803d', '#bbf7d0'], amber: ['#fffbeb', '#b45309', '#fde68a'], red: ['#fef2f2', '#b91c1c', '#fecaca'], violet: ['#f5f3ff', '#6d28d9', '#ddd6fe'], muted: ['#ffffff', '#64748b', '#cbd5e1'], dark: ['#0f172a', '#ffffff', '#0f172a'], attr: ['#ffffff', '#475569', '#cbd5e1'] };
+    const TONE = { HELD: 'violet', CONFIRMED: 'blue', CHECKED_IN: 'dark', EXPIRED: 'muted', CANCELLED: 'muted', PENDING_CHECK_IN: 'blue', ACTIVE: 'green', ENDED: 'muted', RENEWED: 'muted', NOT_REQUIRED: 'muted', PENDING: 'blue', VERIFIED: 'green', REJECTED: 'red', ISSUED: 'violet', PAID: 'green', OVERDUE: 'red', VOID: 'muted', NEW: 'slate', ACKNOWLEDGED: 'blue', IN_PROGRESS: 'amber', RESOLVED: 'green', ESCALATED: 'red', CLOSED: 'muted' };
+    const badge = (s, tone) => { const t = T[tone || TONE[s] || 'slate']; return { label: s, bg: t[0], fg: t[1], bd: t[2] }; };
+
+    const steps = cur => ['Confirm details', 'Choose building', 'Choose room', 'Confirm'].map((label, i) => {
+      const n = i + 1, done = n < cur, on = n === cur;
+      return { n: done ? '✓' : String(n), label, bg: on || done ? '#0f172a' : '#ffffff', fg: on || done ? '#ffffff' : '#64748b', bd: on || done ? '#0f172a' : '#cbd5e1', lc: on ? '#0f172a' : done ? '#334155' : '#94a3b8', lw: on ? '600' : '500', line: i < 3 ? (done ? '#0f172a' : '#e2e8f0') : 'transparent', flex: i < 3 ? '1' : '0 0 auto' };
+    });
+
+    const windows = [
+      { g: 'UT1', at: 'Wed 19 Aug 2026, 08:00', short: '19 Aug, 08:00', note: 'Opened', bg: '#ffffff', bd: '#e2e8f0', fg: '#64748b', nc: '#94a3b8' },
+      { g: 'UT2', at: 'Thu 20 Aug 2026, 08:00 · your group', short: '20 Aug, 08:00', note: 'In 7 min', bg: '#f8fafc', bd: '#0f172a', fg: '#0f172a', nc: '#0f172a' },
+      { g: 'UT3', at: 'Fri 21 Aug 2026, 08:00', short: '21 Aug, 08:00', note: 'Tomorrow', bg: '#ffffff', bd: '#e2e8f0', fg: '#334155', nc: '#64748b' },
+    ];
+
+    const fld = (label, value, o = {}) => ({ label, value, req: o.opt ? '' : ' *', span: o.span || 'auto', bd: o.ro ? '#e2e8f0' : '#cbd5e1', bg: o.ro ? '#f8fafc' : '#ffffff', fg: o.ro ? '#64748b' : '#0f172a' });
+    const declSections = [
+      { title: 'Personal information', summary: 'Nguyễn Thị Thu Trang · Female · 14/03/2008', fields: [fld('Full name', 'Nguyễn Thị Thu Trang'), fld('Gender', 'Female'), fld('Date of birth', '14/03/2008'), fld('Citizen ID', '002308001234'), fld('Phone', '0912 468 205'), fld('School email', 'trang.ntt260123@sis.hust.edu.vn', { ro: true })] },
+      { title: 'Academic information', summary: '20260123 · K71 · Computer Science', fields: [fld('Student ID', '20260123', { ro: true }), fld('Intake', 'K71', { ro: true }), fld('Programme', 'Computer Science (IT1)')] },
+      { title: 'Address', summary: 'Lũng Cú, Tuyên Quang', fields: [fld('Province', 'Tuyên Quang'), fld('Commune', 'Xã Lũng Cú'), fld('Street / village', 'Thôn Lô Lô Chải')] },
+      { title: 'Family', summary: 'Nguyễn Văn Sáng (father) · 0976 115 832', fields: [fld('Family contact', 'Nguyễn Văn Sáng'), fld('Relationship', 'Father'), fld('Phone', '0976 115 832')] },
+    ];
+    const G = [
+      ['UT1', 'opens 19 Aug', 'Ethnic minority in region 1, war invalids & martyrs\u2019 families, veterans, severe disability and other groups in Appendix 1.', 'Ethnic minority (region 1), policy families, veterans, disability'],
+      ['UT2', 'opens 20 Aug', 'Permanent residence in a region I–III commune, a disadvantaged coastal or island commune, or a Programme 135 commune.', 'Disadvantaged, border or Programme 135 commune'],
+      ['UT3', 'opens 21 Aug', 'All other K71 students. No proof needed.', 'All other K71 students · no proof'],
+    ];
+    const groups = G.map(([g, opens, desc, descShort]) => { const on = g === 'UT2'; return { g, opens, desc, descShort, bw: on ? '2px' : '1px', bd: on ? '#0f172a' : '#e2e8f0', radio: on ? '4px solid #0f172a' : '1.5px solid #94a3b8' }; });
+
+    const confirmFacts = [['Full name', 'Nguyễn Thị Thu Trang'], ['Student ID', '20260123'], ['Gender', 'Female'], ['Date of birth', '14/03/2008'], ['Intake', 'K71 · Computer Science'], ['Phone', '0912 468 205'], ['Priority group', 'UT2 · proof PENDING'], ['Permanent address', 'Lũng Cú, Tuyên Quang'], ['Family contact', 'Nguyễn Văn Sáng']].map(([k, v]) => ({ k, v }));
+
+    const RENT = { 6: 1050000, 8: 730000, 10: 550000 };
+    const bType = (free6, free8, free10) => [[6, free6], [8, free8], [10, free10]].map(([c, f]) => ({ name: c + '-student room', rent: vnd(RENT[c]) + ' / mo', free: f + ' free' }));
+    const buildings = [
+      { name: 'B6', floors: '5 floors · 640 beds', forYou: 96, types: bType(12, 38, 46), total: '214 free beds in total · 96 in female or unlocked rooms', on: false },
+      { name: 'B9', floors: '9 floors · 880 beds', forYou: 188, types: bType(22, 64, 102), total: '402 free beds in total · 188 in female or unlocked rooms', on: true },
+    ].map(b => ({ ...b, bw: b.on ? '2px' : '1px', bd: b.on ? '#0f172a' : '#e2e8f0', radio: b.on ? '4px solid #0f172a' : '1.5px solid #94a3b8' }));
+
+    const R = [['B9-201', 2, 8, 'FEMALE', 1], ['B9-203', 2, 10, 'FEMALE', 4], ['B9-205', 2, 6, null, 6], ['B9-207', 2, 8, 'MALE', 5], ['B9-302', 3, 10, 'FEMALE', 7], ['B9-306', 3, 6, 'FEMALE', 2], ['B9-309', 3, 10, 'FEMALE', 0], ['B9-312', 3, 8, 'FEMALE', 3], ['B9-315', 3, 8, null, 8]];
+    const rooms = R.map(([code, floor, cap, gender, free]) => {
+      const sel = code === 'B9-312', male = gender === 'MALE', full = free === 0, ok = !male && !full;
+      return {
+        code, floor, cap, type: cap + ' students', gender: gender || 'Unlocked', rent: vnd(RENT[cap]),
+        free: male ? 'Male room' : full ? 'Full' : free + ' of ' + cap, freeShort: male ? '—' : full ? 'Full' : String(free), freeLabel: male ? 'male room' : full ? '' : 'free beds',
+        freeC: ok ? '#0f172a' : '#94a3b8', op: ok ? '1' : '0.5', rowBg: sel ? '#f8fafc' : '#ffffff', mark: sel ? '#0f172a' : 'transparent',
+        bw: sel ? '2px' : '1px', bd: sel ? '#0f172a' : '#e2e8f0',
+      };
+    });
+    const roomsMobile = rooms.filter(r => ['B9-203', 'B9-207', 'B9-302', 'B9-306', 'B9-309', 'B9-312'].includes(r.code));
+
+    const BED = { taken: ['#e2e8f0', '#64748b', '#e2e8f0'], free: ['#ffffff', '#334155', '#94a3b8'], sel: ['#0f172a', '#ffffff', '#0f172a'] };
+    const beds = [1, 2, 3, 4, 5, 6, 7, 8].map(n => { const k = n === 3 ? 'sel' : [1, 2, 4, 5, 6].includes(n) ? 'taken' : 'free'; return { n, bg: BED[k][0], fg: BED[k][1], bd: BED[k][2] }; });
+    const fullBeds = Array.from({ length: 10 }, (_, i) => ({ n: i + 1 }));
+
+    const confirmRows = [['Round', 'K71 first-time · 20261'], ['Registration type', 'First-time'], ['Building', 'B9'], ['Room', 'B9-312 · Floor 3 · Female'], ['Room type', '8 students · AC · heater · 1 bath'], ['Bed', 'Assigned automatically when you confirm'], ['Stay', '03 Sep 2026 – 25 Feb 2027']].map(([k, v]) => ({ k, v }));
+    const fee = [
+      { k: 'Rent', calc: '730,000 × 6 months', amt: '4,380,000' },
+      { k: 'Water', calc: '40,000 × 6 months', amt: '240,000' },
+      { k: 'Equipment fee', calc: 'First stay only · once', amt: '300,000' },
+    ];
+
+    const N = 25; let seed = 20260123;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const FP = [[0, 0], [0, N - 7], [N - 7, 0]];
+    const qr = [];
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+      let on = null;
+      for (const [R0, C0] of FP) {
+        if (r >= R0 && r < R0 + 7 && c >= C0 && c < C0 + 7) { const y = r - R0, x = c - C0; on = y === 0 || y === 6 || x === 0 || x === 6 || (y >= 2 && y <= 4 && x >= 2 && x <= 4); break; }
+        if (r >= R0 - 1 && r <= R0 + 7 && c >= C0 - 1 && c <= C0 + 7) { on = false; break; }
+      }
+      if (on === null) on = r === 6 || c === 6 ? (r + c) % 2 === 0 : rnd() < 0.48;
+      qr.push({ c: on ? '#0f172a' : '#ffffff' });
+    }
+
+    const RM = [[1, 'Lê Thị Ngọc Ánh', '20260087 · Mechanical Eng.'], [2, 'Vũ Phương Thảo', '20260311 · Chemical Eng.'], [3, 'Nguyễn Thị Thu Trang (you)', '20260123 · Computer Science'], [4, 'Hà Thị Mỷ', '20260542 · Electrical Eng.'], [5, 'Đặng Khánh Linh', '20260219 · Economics'], [6, 'Triệu Thị Hoa', '20260675 · Materials Science'], [7, 'Phan Thùy Dung', '20260408 · Biotechnology'], [8, 'Free', '']];
+    const roommates = RM.map(([bed, name, meta]) => { const me = name.includes('(you)'), free = name === 'Free'; return { bed, name, meta, fw: me ? '600' : '400', fg: free ? '#94a3b8' : '#0f172a' }; });
+
+    const checkinQueue = [
+      ['Nguyễn Thị Thu Trang', '20260123', 'B9-312·3', 'UT2', 'PENDING', true],
+      ['Lò Thị Xuân', '20260204', 'B9-306·1', 'UT1', 'VERIFIED'],
+      ['Bùi Minh Châu', '20260733', 'B9-306·5', 'UT3', 'NOT_REQUIRED'],
+      ['Hoàng Văn Pủa', '20260061', 'B9-114·2', 'UT1', 'PENDING'],
+      ['Đỗ Hải Yến', '20260590', 'B9-302·8', 'UT2', 'REJECTED'],
+      ['Mai Anh Tuấn', '20260817', 'B9-408·4', 'UT3', 'NOT_REQUIRED'],
+    ].map(([name, code, bed, g, proof, sel]) => ({ name, code, bed, g, badge: badge(proof), bg: sel ? '#f1f5f9' : '#ffffff', fg: '#0f172a', sub: '#64748b' }));
+    const managerFacts = [['Date of birth', '14/03/2008'], ['Citizen ID', '002308001234'], ['Phone', '0912 468 205'], ['Intake', 'K71 · Computer Science'], ['Permanent address', 'Thôn Lô Lô Chải, Lũng Cú, Tuyên Quang'], ['Family contact', 'Nguyễn Văn Sáng · 0976 115 832'], ['Priority group', 'UT2'], ['Semester fee', '4,920,000 · PAID 20 Aug'], ['Stay', '03 Sep 2026 – 25 Feb 2027']].map(([k, v]) => ({ k, v }));
+
+    const adminWindows = [
+      { g: 'UT1', desc: 'Ethnic minority (region 1), policy families, veterans, disability', at: '19 Aug 2026, 08:00' },
+      { g: 'UT2', desc: 'Disadvantaged, border or Programme 135 communes', at: '20 Aug 2026, 08:00' },
+      { g: 'UT3', desc: 'All other K71 students', at: '21 Aug 2026, 08:00' },
+    ];
+    const adminBuildings = [['B3', '— beds'], ['B5', '— beds'], ['B6', '214 free', true], ['B8', '— beds'], ['B9', '402 free', true], ['B10', '— beds'], ['B13', '— beds']].map(([name, free, on]) => ({ name, free: on ? free : 'Not offered', bw: on ? '2px' : '1px', bd: on ? '#0f172a' : '#e2e8f0', cb: on ? '#0f172a' : '#ffffff', cbd: on ? '#0f172a' : '#cbd5e1', check: on ? '✓' : '' }));
+    const feePreview = [6, 8, 10].map(c => ({ name: c + '-student room', calc: `(${vnd(RENT[c])} + 40,000) × 6 + 300,000`, total: vnd((RENT[c] + 40000) * 6 + 300000) }));
+
+    const rejectedRows = [
+      { name: 'Đỗ Hải Yến', code: '20260590', bed: 'B9-302 · 8', g: 'UT2', badge: badge('REJECTED'), reason: 'Certificate expired — issued in 2023, must be issued this year', meta: 'Đinh Văn Toàn · 03 Sep · 12 days ago', canCancel: true, waiting: false, bg: '#f8fafc' },
+      { name: 'Lường Thị Nga', code: '20260377', bed: 'B6-214 · 3', g: 'UT1', badge: badge('REJECTED'), reason: "Document is for the student's sibling", meta: 'Phạm Thị Hạnh · 07 Sep · 8 days ago', canCancel: true, waiting: false, bg: '#ffffff' },
+      { name: 'Hoàng Văn Pủa', code: '20260061', bed: 'B9-114 · 2', g: 'UT1', badge: badge('PENDING'), reason: 'Rejected 04 Sep · new proof uploaded 05 Sep', meta: 'Back to the building manager', canCancel: false, waiting: true, bg: '#ffffff' },
+    ];
+    const BG = [
+      ['registrations.status', ['HELD', 'CONFIRMED', 'CHECKED_IN', 'EXPIRED', 'CANCELLED']],
+      ['residences.status', ['PENDING_CHECK_IN', 'ACTIVE', 'ENDED', 'RENEWED']],
+      ['proof_status', ['NOT_REQUIRED', 'PENDING', 'VERIFIED', 'REJECTED']],
+      ['invoices.status', ['ISSUED', 'PAID', 'OVERDUE', 'VOID']],
+      ['repair_tickets.status', ['NEW', 'ACKNOWLEDGED', 'IN_PROGRESS', 'RESOLVED', 'ESCALATED', 'CONFIRMED', 'CLOSED']],
+    ];
+    const badgeGroups = BG.map(([name, xs]) => ({ name, items: xs.map(s => badge(s, name.startsWith('repair') && s === 'CONFIRMED' ? 'green' : undefined)) }));
+    [['registration_rounds.type', ['FIRST_TIME', 'STAY_ON', 'SUMMER']], ['priority_group', ['UT1', 'UT2', 'UT3']], ['rooms.gender', ['MALE', 'FEMALE', 'Unlocked']]].forEach(([name, xs]) => badgeGroups.push({ name, items: xs.map(s => badge(s, 'attr')) }));
+
+    return (this._d = { rejectedRows, windows, declSections, groups, confirmFacts, buildings, rooms, roomsMobile, beds, fullBeds, confirmRows, fee, qr, roommates, checkinQueue, managerFacts, adminWindows, adminBuildings, feePreview, badgeGroups, steps1: steps(1), steps2: steps(2), steps3: steps(3), steps4: steps(4) });
+  }
+  renderVals() { return this.build(); }
+}
+</script>
+</body>
+</html>
